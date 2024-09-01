@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CareerConnect - {{title}} </title>
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" href="/static//bootstrap//css//bootstrap.min.css">
+    <!-- Fontawesome css-->
+    <link rel="stylesheet" href="/static/fontawesome/css/all.css" />
+    <!-- Animation css -->
+    <link rel="stylesheet" href="/static/styles/animate.min.css" />
+    <!-- Page Css -->
+    <link rel="stylesheet" href="/static/styles/stylesheet.css" />
+  </head>
+  <body>
+
+  <!-- Registration Form -->
+    <div class="container-fluid">
+      <div class="row justify-content-center align-items-center">
+          <div class="col">
+            <div class="card mt-2 border-0">
+              <div class="card-header p-3 d-flex justify-content-between align-items-center sticky-top bg-light">
+                  <div class="d-flex align-items-center">
+                    <a href="{{ url_for('employer') }}">
+                      <img src="/static/images/logo-light.png" alt="logo" height="50" title="Back to homepage" />
+                    </a>
+                      <small> CareerConnect </small>
+                  </div>
+                  <a
+                    type="button"
+                    class="btn-close align-self-start"
+                    href="{{ url_for('employer') }}">
+                  </a>
+                </div>
+                <div class="card-body" style="height: 100%; background: #f0efed">
+                  <form action="" method="post" novalidate>
+                    {{ form.csrf_token}}
+                    <div class="row align-items-center justify-content-center">
+                      <section class="col-lg-6 personalCred my-5">
+                        <div class="py-2 ps-4 heading">
+                            <h4>Provide your personal credentials.</h4>
+                        </div>
+                         <div class="details_wrapper">
+                          <div class="row mb-3">
+                            <div class="col-lg-6 mb-3">
+                              <div class="form-floating">
+                                {{ form.firstname(class='form-control border-secondary') }}
+                                {{ form.firstname.label }}
+                              </div>
+                            </div>
+                            <div class="col-lg-6">
+                              <div class="form-floating">
+                                {{ form.lastname(class='form-control border-secondary') }}
+                                {{ form.lastname.label }}
+                              </div>
+                            </div>
+                          </div>                                
+                          <div class="row mb-3">
+                            <div class="col-lg-6 mb-3">
+                              <div class="form-floating">
+                                {{ form.email(class='form-control border-secondary') }}
+                                {{ form.email.label }}
+                              </div>
+                            </div>
+                            <div class="col-lg-6">
+                              <div class="form-floating">
+                                {{ form.phone(class='form-control border-secondary') }}
+                                {{ form.phone.label }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-floating mb-3">
+                            {{ form.password(class="form-control border-secondary password") }}
+                            {{ form.password.label }}
+                            <i class="fa-solid fa-eye-slash eyeIcon"></i>
+                          </div>
+                          <div class="my-3 d-flex justify-content-between">
+                            <button
+                              type="button" disabled
+                              class="btn btn-custom col-12"
+                              id="nextCompany"> Next <i class="fa-solid fa-angle-right"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </section>
+                     <section class="col-lg-6 companyCred hidden my-5">
+                      {% set message = get_flashed_messages(with_categories=True) %}
+                      {% for cat, msg in message %}
+                        {% if cat=='error' %}
+                          <div class="alert alert-danger"><i class="fas fa-circle-xmark"></i> {{msg}}</div>
+                        {% else %}
+                          <div class="alert alert-warning"><i class="fas fa-circle-info"></i> {{msg}}</div>
+                        {% endif %}
+                      {% endfor %}
+                        <div class="py-3 ps-4 heading">
+                            <h4>About your company in a nutshell.</h4>
+                        </div>
+                        <div class="details_wrapper">
+                          <div class="mb-3">
+                            <label>Company Name*</label>
+                            <input name="company_name" class="form-control border-secondary" rows="2" />
+                          </div>
+                          <div class="mb-3">
+                              {{ form.company_size(multiple=False, class='form-select border-secondary') }}
+                          </div>
+                          <div class="mb-3">
+                            <select name="type"class="form-select border-secondary">
+                              <option>Company Category.</option>
+                              {% for type in types %}
+                                <option value="{{ type.type_id }}">{{ type.type_name }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                          <div class="row mb-3">
+                            <div class="col-lg-6 mb-3">
+                              <select name="state" id="state" class="form-select border-secondary">
+                                <option>Location</option>
+                                {% for state in states %}
+                                   <option value="{{ state.state_id }}">{{ state.state_name }}</option>
+                                {% endfor %}
+                             </select>
+                            </div>
+                            <div class="col-lg-6">
+                              <select name="lga" id="lga" class="form-select border-secondary">
+                                <option value="1" selected>City</option>                         
+                             </select>
+                            </div>
+                          </div>
+                            <div class="my-3">
+                            <input
+                              type="submit"
+                              class="btn btn-custom col-12"
+                              value="Submit"
+                              id="registerBtn"
+                            />
+                          </div>
+                        </div>
+                     </section>
+                    </div>
+                  </form>             
+                </div>
+                <div class="card-footer text-body-secondary p-2">
+                 <div class="d-flex justify-content-center my-3 fs-5">
+                    &copy; 2024 CareerConnect Team
+                 </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  <!-- Registration Form Ends -->
+
+    <!-- Jquery js -->
+    <script src="/static/scripts/jquery.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Page js -->
+    <script src="/static/scripts/script.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('#password').keypress(function(){
+          const firstname = $("#firstname").val();
+          const lastname = $("#lastname").val();
+          const email = $("#email").val();
+          const password = $("#password").val();
+
+          if (firstname && lastname && email && password){
+            $("#nextCompany").removeAttr('disabled');
+          }
+        });
+        $("#nextCompany").click(function () {
+          $(".personalCred").addClass("hidden");
+          $(".companyCred").removeClass("hidden");
+        });
+        $('#state').change(function(){
+          let state = $(this).val();
+        
+          $.getJSON({
+            url: `/show_lga/${state}`,
+            success: function(lga){
+              $('#lga').empty();
+              // Append new options for each skill
+              for (let i = 0; i < lga.length; i++) {
+                  $('#lga').append(`<option value='${lga[i].lga_id}'>${lga[i].lga_name}</option>`);
+              }
+            }
+          })
+        
+        });
+      })
+    </script>
+ </body>
+</html>

@@ -1,0 +1,247 @@
+{% extends "jobseeker/layout.html" %}
+
+{% block subnav %}
+    <div class="card border-0" style="background: #ddf7f5; position: relative; border-radius: 0px">
+        <div class="card-header">
+            <h3 class="m-4"><i class="fas fa-user"></i> Profile Settings</h3>
+        </div>
+       <div class="hstack ps-2">
+                <div>
+                  <img src="/static/photos/{% if userid.jobseeker_dp %}{{userid.jobseeker_dp}}{% else %}avatar.jpeg{% endif %}"
+                       class="img-fluid img-round-lg py-3" width="100">
+                </div>
+                <div>
+                  <div class="card-body">
+                    <h5 class="card-text fs-4">{{ userid.jobseeker_fname }} {{ userid.jobseeker_lname }}</h5>
+                    <span class="card-text"><i class="fas fa-envelope"> </i> {{ userid.jobseeker_email }}</span> 〰
+                    <span class="card-text"><i class="fas fa-phone"> </i> {% if userid.jobseeker_phone %}{{ userid.jobseeker_phone }}{% endif %}</span>
+                    <h6 class="card-text my-2"><i class="fas fa-location-dot"> </i> {{ userid.jobseeker_state.state_name }}, Nigeria</h6>
+                  </div>
+                  <div class="btn" data-bs-toggle="modal" data-bs-target="#personalInfo" style="position: absolute; top: 15px; right: 15px;">
+                  <i class="fas fa-pen"></i> Edit
+              </div>
+                </div>
+              </div>
+    </div>
+{% endblock subnav %}
+
+{% block content %}
+    <main>
+        <div class="container px-4">
+            <div class="row justify-content-center" style="background: lavender">
+                    <div class="col-lg-11">
+                    {% set messages = get_flashed_messages(with_categories=True) %}
+                        {% for cat, msg in messages %}
+                            {% if cat == 'error' %}
+                                <div class="alert alert-danger"><i class="fas fa-circle-xmark"></i> {{msg}}</div>
+                            {% else %}
+                                <div class="alert alert-success"><i class="fas fa-circle-check"></i> {{msg}}</div>
+                            {% endif %}
+                        {% endfor %}
+                    <form action="{{url_for('profile_settings')}}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                        <div class="card p-2 my-3">
+                            <div class="card-body">
+                                <label class="fs-5 text-blue mb-3">My CV</label>
+                                <p class="p-2 hstack" style="background: lavender; border-radius: 10px">
+                                    <span class="me-auto text-wrap"><i class="fa-solid fa-file"></i>{% if userid.jobseeker_cv %} {{ userid.jobseeker_cv }} {% endif %}</span>
+                                    <a href="/show/cv/{{userid.jobseeker_cv }}" target="_blank">{% if userid.jobseeker_cv %} <i class="fa-solid fa-download">{% endif %}</i></a>
+                                </p>
+                                <p class="mb-2">Allowed file extensions are PDF, DOC, DOCX, TXT </p>
+                                <input type="file" name="cv" class="form-control" value="{{ userid.jobseeker_cv }}"/>
+                            </div>
+                        </div>
+                        <div class="card p-2 mb-3">
+                            <div class="card-body">
+                                <label class="fs-5 text-blue mb-2">My Profession</label>
+                                <select name="category" id="category" class="form-select border-secondary">
+                                    {% for category in categories %}
+                                        {% if userid.jobseeker_categoryid == category.category_id %}
+                                        <option value="{{ category.category_id }}" selected>{{ category.category_name }}</option>
+                                        {% else %}
+                                        <option value="{{ category.category_id }}">{{ category.category_name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <div class="mt-4 d-flex">
+                                    {% if userid.jobseeker_category %}
+                                    <p class="p-1" style="border: 1px solid #0d6efd; border-radius: 5px"> {{ userid.jobseeker_category.category_name }} </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card p-2 mb-3">
+                            <div class="card-body">
+                                <label class="fs-5 text-blue mb-2">My Professional Experience</label>
+                                <select name="level" id="level" class="form-select border-secondary">
+                                    {% for level in levels %}
+                                        {% if userid.jobseeker_levelid == level.level_id %}
+                                        <option value="{{ level.level_id }}" selected>{{  level.level_name }}</option>
+                                        {% else %}
+                                        <option value="{{ level.level_id }}">{{  level.level_name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mt-2 d-flex ps-3">
+                                {% if userid.jobseeker_level %}
+                                <p class="p-1" style="border: 1px solid #0d6efd; border-radius: 5px">{{ userid.jobseeker_level.level_name }} </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card p-2 mb-3" style="position: relative">
+                            <div class="card-body">
+                                <label class="fs-5 text-blue mb-4">My Skills</label>
+                                <a href="#" data-bs-target="#editSkill" data-bs-toggle="modal" class="btn btn-primary" style="position:absolute; top: 5px; right: 10px">Add</a>
+                                <div class="mt-2 d-flex flex-wrap">
+                                {% if user_skills %}
+                                    {% for user_skill in user_skills %}
+                                        <p class="p-1 me-2 hstack" style="border: 1px solid #0d6efd; border-radius: 5px">
+                                            {{ user_skill.jobseekerskills_skill.skill_name }}
+                                            <a
+                                                href="{{url_for('delete_skill', id=user_skill.jobseeker_skill_id)}}"
+                                                type="button"
+                                                class="btn-close ms-3"
+                                                onclick="confirm('Are you sure you want delete this skill?')">
+                                            </a>
+                                        </p>
+                                    {% endfor %}
+                                {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary col-lg-4 col-12 mb-5" id="updateProfile"> Save Changes </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Personal Information -->
+    <div
+      class="modal fade"
+      id="personalInfo"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="personalInfoLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="personalInfoLabel">
+             <i class="fa-solid fa-user-circle"></i> Personal Information.
+            </h1>
+                <a
+                  type="button"
+                  class="btn-close"
+                  href="{{ url_for('profile_settings') }}">
+                </a>
+          </div>
+              <form action="{{url_for('personal_information')}}" method="post" enctype="multipart/form-data">
+               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="modal-body">
+                     <div class="row px-5">
+                        <div class="col-lg-12">
+                            <label class="text-blue">Profile Photo*</label>
+                            <input type="file" name="photo" class="form-control" value="{{userid.jobseeker_dp}}"/>
+                        </div>
+                        <div class="col-lg-6 my-2">
+                            <label class="text-blue">Firstname*</label>
+                            <input type="text" name="firstname" class="form-control border-secondary" value="{{userid.jobseeker_fname}}"/>
+                        </div>
+                        <div class="col-lg-6 my-2">
+                            <label class="text-blue">Lastname*</label>
+                            <input type="text" name="lastname" class="form-control border-secondary" value="{{userid.jobseeker_lname}}"/>
+                        </div>
+                        
+                        <div class="col-lg-6 my-2">
+                            <label class="text-blue">Location*</label>
+                            <select name="state" class="form-select  border-secondary">
+                                <option>Select State</option>
+                                {% for state in states %}
+                                    {% if userid.jobseeker_state.state_id == state.state_id %}
+                                        <option value="{{ state.state_id }}" selected>{{ state.state_name }}</option>
+                                    {% else %}
+                                        <option value="{{ state.state_id }}">{{ state.state_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-6 my-2">
+                            <label class="text-blue">City*</label>
+                            <select name="lga" class="form-select  border-secondary">
+                                <option>Select City</option>
+                                {% for lga in lgas %}
+                                    {% if userid.jobseeker_lga.lga_id == lga.lga_id %}
+                                        <option value="{{ lga.lga_id }}" selected>{{ lga.lga_name }}</option>
+                                    {% else %}
+                                        <option value="{{ lga.lga_id }}">{{ lga.lga_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-6 my-2">
+                            <label class="text-blue">Phone*</label>
+                            <input type="text" name="phone" class="form-control border-secondary" value="{% if userid.jobseeker_phone %}{{userid.jobseeker_phone}}{% endif %}"/>
+                        </div>
+                        <div class="col-lg-6 my-2">
+                            <label class="text-blue">Date of birth*</label>
+                            <input type="date" name="dob" class="form-control border-secondary" value="{% if userid.dob %}{{userid.dob}}{% endif %}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <a type="button" class="btn btn-dark col-5 me-auto" href="{{url_for('profile_settings')}}"> Cancel </a>
+                    <button type="submit" class="btn btn-primary col-5" id="saveUpdate"> Save </button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+    <!-- Personal Information Ends -->
+
+    <!-- Edit skills -->
+    <div
+    class="modal fade"
+    id="editSkill"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="editSkillLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="editSkillLabel">
+            <i class="fa-solid fa-dumbbell"></i> Select your skills.
+            </h1>
+                <a
+                type="button"
+                class="btn-close"
+                href="{{ url_for('profile_settings') }}">
+                </a>
+        </div>
+            <form action="{{url_for('add_skill')}}" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="modal-body">
+                    <div class="hstack">
+                    <select name="skill_id" id="skill" class="form-select border-secondary" multiple>
+                      {% for skill in skills %}
+                        <option value="{{ skill.skill_id }}" id="skill_{{skill.skill_id}}">{{ skill.skill_name }}</option>
+                      {% endfor %}
+                    </select>
+                    </div>
+                    <div class="my-3 d-flex" id="selectedSkill">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <a type="button" class="btn btn-dark col-5 me-auto" href="{{url_for('profile_settings')}}"> Cancel </a>
+                    <button type="submit" class="btn btn-primary col-5"> Add </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    <!-- Edit skills -->
+{% endblock content %}

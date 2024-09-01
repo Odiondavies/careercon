@@ -1,0 +1,144 @@
+{% extends "jobseeker/layout.html" %}
+
+{% block modal %}
+<!-- Job Details -->
+<div class="card">
+      <div class="card-header" style=" background-color: #f0efed;">
+        <h4 class="card-title" id="jobDetailsLabel"> 
+          <a href="{% if session.get('useronline') != None %} {{url_for('jobseeker_dashboard')}}
+          {% else %} {{url_for('home')}} {% endif %}" style="text-decoration: none;">
+            <i class="fas fa-arrow-left"></i>
+            Jobs.
+          </a>
+        </h4>
+      </div>
+      <div class="modal-body" style="background-color: #fff;">
+        <div class="container mt-4">
+          <div class="row">
+            <div class="col my-3">            
+              <div class="job_details mt-4">
+                <div class="row">
+                <div class="col-lg-8 hstack">
+                      <img
+                      src="/static/logos/{% if job.job_employer.employer_company_logo %}{{job.job_employer.employer_company_logo}}{% else %}avatar.jpeg{% endif %}"
+                      alt="..."
+                      class="img-fluid img-square"
+                    />
+                    <p class="d-flex flex-column my-2 ms-3">
+                      <span class="fs-5 text-blue"> {{job.job_employer.employer_company_name}} </span>
+                        <span><i class="fa-solid fa-location-dot text-green"></i> {{job.job_lga.lga_name}}, {{job.job_state.state_name}} State </span>
+                    </p>     
+                </div>
+                <div class="col-lg-4 share ms-auto">
+                  {% if session.get('useronline') %}
+                    {% if job.job_bookmark %}          
+                      <a class="btn btn-icon ms-3" title="Remove from bookmarks" href="{{ url_for('remove_bookmark', jobid=job.job_id, title='Home') }}">
+                        <i class="fa-solid fa-bookmark bm-icon" onclick="bookmark()"></i>
+                      </a>
+                     {% else %}
+                      <a class="btn btn-icon ms-3" title="Add to bookmark" href="{{ url_for('add_bookmark', jobid=job.job_id, title='Home') }}">
+                        <i class="fa-regular fa-bookmark bm-icon" onclick="bookmark()"></i>
+                      </a>
+                      {% endif %}
+                    {% else %}
+                      <a class="btn btn-icon ms-3" title="Add to bookmark" href="#" data-bs-target="#access-denied" data-bs-toggle="modal">
+                        <i class="fa-regular fa-bookmark bm-icon"></i>
+                      </a>
+                    {% endif %}
+                  <a href="https://api.whatsapp.com/send?text={{url_for('job_details', id=job.job_id)}}" target="_blank" class="btn btn-icon ms-3" title="Share job">
+                    <i class="fa-regular fa-share-from-square text-green"></i> Share to WhatsApp
+                  </a>
+                </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 mt-3 card-text vstack">
+                    <p>Job Type: <span class="job_info text-primary"><i class="fa-solid fa-briefcase"></i> {{job.job_type}} </span></p>
+                    <p>Job Mode: <span class="job_info text-primary"><i class="fa-solid fa-wifi"></i> {{job.job_mode}} </span></p>
+                    <p class="text-muted"> Location: <span class="job_info text-primary"> {{job.job_lga.lga_name}}, {{job.job_state.state_name}} State </span></span></p>
+                    <p class="text-muted"> Date posted: <span class="job_info text-primary"> {{job.posted_on.strftime('%B %d, %Y')}} </span></p>
+                  </div>
+                  <div class="col-lg-4 mt-3 card-text vstack">
+                    <p>{% if job.job_vacancy %} Number of vacancies: <span class="job_info text-primary">{{job.job_vacancy}} </span>{% endif %} </p>
+                    <p> {% if job.language %}Language Skill: <span class="job_info text-primary"> {{job.language}} </span> {% endif %}</p>
+                    <p>Experience Level: <span class="job_info text-primary"><i class="fas fa-dumbbell"></i> {{job.job_level.level_name}} </span></p>
+                    <p class="text-muted"> Deadline: <span class="job_info text-primary"> {{job.expires_on.strftime('%B %d, %Y')}} </span></p>
+                  </div>
+                </div>
+                
+                  <p>Job Title: <span class="fs-4 text-blue">{{job.job_title}}</span> </p>
+                  <hr>
+              </div>
+              <div class="my-3">
+                <p class="fs-4">About this role.</p>
+                <p> {{job.job_description}}</p>
+
+                <p class="fs-4">Responsibilities</p> 
+                <ul>
+                  {% for resp in responsibilities %}                    
+                  <li> {{ resp }}</li>
+                  {% endfor %}
+                </ul>
+                 <p class="fs-4">Requirements</p>
+                <ul>
+                  {% for qual in qualifications %}
+                    <li> {{ qual }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+                <p class="fs-4">About {{job.job_employer.employer_company_name}}</p>
+                <p>
+                  {{job.job_employer.employer_company_description}}
+                </p>
+
+             {% if job.job_salary %} <p>Salary: N{{ job.job_salary }}</p> {% endif %}
+              <div class="d-none d-md-block my-5">
+                {% if session.get('useronline') != None %}
+                  <a
+                    href="{{url_for('apply', id=job.job_id)}}"
+                    type="button"
+                    class="btn btn-success col-6 mb-5 btn-lg">Apply Now
+                  </a>
+                {% else %}
+                  <a
+                    href="#"
+                    data-bs-target="#access-denied"
+                    data-bs-toggle="modal"
+                    type="button"
+                    class="btn btn-success col-6 mb-5 btn-lg">Apply Now
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        
+          <div class="row d-md-none sticky-bottom my-5 p-3" style="background: lavender">
+            {% if session.get('useronline') != None %}
+            <div class="col-12">
+              <a
+                href="{{url_for('apply', id=job.job_id)}}"
+                type="button"
+                class="btn btn-success col-12">Apply Now
+              </a>
+            </div>
+            {% else %}
+            <div class="col-10">
+              <a
+                  href="#"
+                  id="applyBtn"
+                  data-bs-target="#access-denied"
+                  data-bs-toggle="modal"
+                  type="button"
+                  class="btn btn-success col-12">Apply Now
+              </a>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% include "utilities/footer.html" %}
+      </div>
+    </div>
+<!-- Job Details -->
+
+{% include "utilities/modals.html" %}
+{% endblock modal %}
+

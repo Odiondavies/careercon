@@ -1,0 +1,60 @@
+{% extends "admin/layout.html" %}
+
+{% block subnav %}
+    <div class="card mb-3 border-0" style="border-radius: 0px; background: #ddf7f5">
+        <div class="card-header">
+            <h3 class="mt-2">All Employers</h3>
+        </div>
+        <p class="ps-3 mt-1"> Here is the list of registered employers.</p>
+    </div>
+{% endblock subnav %}
+
+{% block content %}
+{% if employers %}
+<main>
+  <div class="container-fluid px-4" style="min-height: 420px;">
+    <table class="table bg-light myTable">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Logo</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Location</th>
+          <th scope="col">Type</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for employer in employers %}
+        {% if employer %}
+        <tr>
+          <th scope="row">{{loop.index}}</th>
+          <td><img src="/static/logos/{% if employer.employer_company_logo %}{{employer.employer_company_logo}}{% else %}avatar.jpeg{% endif %}" class="img-round-xm"></td>
+          <td>{{employer.employer_company_name}}</td>
+          <td>{{employer.employer_company_email}}</td>
+          <td> {{employer.employer_state.state_name}}</td> 
+          <td> {{employer.employer_type.type_name}}</td> 
+          <td>
+              <a href="{{url_for('delete_employer', id=employer.employer_id)}}/" class="btn btn-sm btn-danger" onclick="return confirm('Do you really want to delete {{employer.employer_company_name}}?')">Delete</a>
+          </td>
+        </tr>
+      {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</main>
+{% else %}
+<div class="row my-5">
+  <h6 class="text-center">No employers list found.</h6>
+</div>
+{% endif %}
+{% endblock content %}
+{% block customJS %}
+<script>
+  $(document).ready( function () {
+    $('.myTable').DataTable();
+} );
+</script>
+{% endblock customJS %}

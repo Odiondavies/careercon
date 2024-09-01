@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CareerConnect: Admin</title>
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" />
+    <!-- Fontawesome css-->
+    <link rel="stylesheet" href="/static/fontawesome/css/all.css" />
+    <!-- Animation css -->
+    <link rel="stylesheet" href="/static/styles/animate.min.css" />
+    <!-- Page Css -->
+    <link rel="stylesheet" href="/static/styles/admin.css" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row justify-content-end">
+        <div class="col-lg-3 adminSideBar fixed-top">
+          <div class="row">
+            <div class="col">
+              <div
+              class="my-3 d-flex flex-column align-items-center"
+              style="border-bottom: 2px solid #808080"
+            >
+              <img
+                src="/static/images/jobseeker.webp"
+                alt="admin picture"
+                class="img-fluid img-round"
+              />
+              <span class="fs-4 text-blue">Michael Janssen</span>
+              <span class="fs-5 text-body-secondary mb-2">Admin</span>
+            </div>
+            <div class="adminList text-body-secondary">
+              <h5 class="mb-4 active" id="changePassword">
+                <i class="fa-solid fa-lock"></i><a href="#"> Change Password</a>
+              </h5>
+              <h5 class="mb-4" id="addAdmin">
+                <i class="fa-solid fa-person-circle-plus"></i
+                ><a href="#"> Add an Admin</a>
+              </h5>
+              <h5 class="mb-4" id="manageAdmin">
+                <i class="fa-solid fa-handshake"></i
+                ><a href="#"> Manage Admins</a>
+              </h5>
+              <h5 class="mb-4" id="manageEmployers">
+                <i class="fa-solid fa-user-tie"></i
+                ><a href="#"> Manage Employers </a>
+              </h5>
+              <h5 class="mb-4" id="manageJobSeekers">
+                <i class="fa-solid fa-people-group"></i
+                ><a href="#"> Manage Job Seekers </a>
+              </h5>
+              <h5 class="mb-4" id="adminSettings">
+                <i class="fa-solid fa-gear"></i><a href="#"> Settings</a>
+              </h5>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-9">
+          <!-- Navigation Bar -->
+          <div class="row header sticky-top">
+            <div class="col">
+              <nav class="navbar navbar-expand-lg bg-body-light">
+                <div class="container-fluid">
+                  <a
+                    class="navbar-brand d-flex align-items-center text-blue"
+                    href="#"
+                    ><img src="/static/images/logo-light.png" alt="logo" />
+                    <small> CareerConnect </small></a
+                  >
+                  <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                  >
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div
+                    class="collapse navbar-collapse d-flex justify-content-end"
+                    id="navbarSupportedContent"
+                  >
+                    <form class="d-flex" role="search">
+                      <div class="input-group">
+                        <input
+                          class="form-control border-success"
+                          type="search"
+                          placeholder="Search"
+                          style="border-right: none;"
+                        />
+                        <button
+                          class="border-success input-group-text"
+                          type="submit"
+                          style="border-left: none"
+                        >
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </div>
+                    </form>
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                      <li class="nav-item dropdown">
+                        <a
+                          class="nav-link dropdown-toggle"
+                          href="#"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          <i
+                            class="fa-regular fa-user-circle"
+                            style="font-size: 30px"
+                          ></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <li>
+                            <a
+                              class="dropdown-item"
+                              href="/admin/"
+                              style="color: #ff0000fe"
+                              ><i
+                                class="fa-solid fa-right-to-bracket"
+                                style="color: #ff0000fe; font-size: 15px"
+                              ></i>
+                              Logout</a
+                            >
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </div>
+          <!-- Main Content  -->
+          <main>
+            <!-- Admin -->
+            <div class="row justify-content-center py-3 admin">
+              <div class="col-6 changePassword">
+                <h4 class="mb-4 text-center">Change Password</h4>
+                <form action="#" method="post">
+                  <div class="mb-3">
+                    <label for="oldPassword">Old Password</label>
+                    <input
+                      type="password"
+                      name="oldpassword"
+                      id="oldpassword"
+                      class="form-control border-secondary"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="newPassword">New Password</label>
+                    <input
+                      type="password"
+                      name="newPassword"
+                      id="newPassword"
+                      class="form-control border-secondary"
+                    />
+                  </div>
+                  <div class="mb-4">
+                    <label for="confPassword">Confirm New Password</label>
+                    <input
+                      type="password"
+                      name="confPassword"
+                      id="confPassword"
+                      class="form-control border-secondary"
+                    />
+                  </div>
+                  <button type="submit" class="btn btn-custom col-12">
+                    Change Password
+                  </button>
+                </form>
+              </div>
+              <div class="col-6 addAdmin hidden">
+                <h4 class="mb-4 text-center">Add an Admin</h4>
+                <form action="#" method="post">
+                  <div class="mb-3">
+                    <label for="fullname">Fullname</label>
+                    <input
+                      type="text"
+                      name="fullname"
+                      id="fullname"
+                      class="form-control border-secondary"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="email">Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      class="form-control border-secondary"
+                    />
+                  </div>
+                  <div class="mb-4">
+                    <label for="password">Password</label>
+                    <input
+                      type="password"
+                      name="password"
+                      id="password"
+                      class="form-control border-secondary"
+                    />
+                  </div>
+                  <button type="button" class="btn btn-custom col-12 mb-3">
+                    Submit
+                  </button>
+                </form>
+              </div>
+              <div class="col-10 manageAdmin hidden">
+                <h4 class="mb-4 text-center">Manage Admin</h4>
+                <table class="table table-striped table-primary">
+                  <thead class="table-success">
+                    <tr>
+                      <th scope="col">Id</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Logs</th>
+                      <th scope="col" colspan="2">Action</th>
+                    </tr>
+                    <tbody class="">
+                      <tr>
+                        <td scope="row">2</td>
+                        <td scope="row">Michael Janssen</td>
+                        <td scope="row">mjanssen@gmail.com</td>
+                        <td scope="row">Monday 15 April, 2024</td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-file-pen"></i></a></td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr>
+                      <tr>
+                        <td scope="row">1</td>
+                        <td scope="row">Michael Janssen</td>
+                        <td scope="row">mjanssen@gmail.com</td>
+                        <td scope="row">Monday 15 April, 2024</td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-file-pen"></i></a></td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr>
+                      <tr>
+                        <td scope="row">3</td>
+                        <td scope="row">Michael Janssen</td>
+                        <td scope="row">mjanssen@gmail.com</td>
+                        <td scope="row">Monday 15 April, 2024</td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-file-pen"></i></a></td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr>
+                    </tbody>
+                  </thead>
+                </table>
+              </div>
+            </div>
+            <!-- Employer -->
+            <div class="row justify-content-center py-3 hidden employers">
+              <div class="col-10 manageEmployers">
+                <h4 class="mb-4 text-center">Manage Employers</h4>
+                <table class="table table-striped table-primary">
+                  <thead class="table-success">
+                    <tr>
+                      <th scope="col">Id</th>
+                      <th scope="col">Log</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Jobs Posted</th>
+                      <th scope="col">Subscription type</th>
+                      <th scope="col" colspan="2">Action</th>
+                    </tr>
+                    <tbody class="">
+                      <tr>
+                        <td scope="row">1</td>
+                        <td scope="row">logo</td>
+                        <td scope="row">Our Company</td>
+                        <td scope="row">mjanssen@gmail.com</td>
+                        <td scope="row">21</td>
+                        <td scope="row">Monthly</td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-file-pen"></i></a></td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr>
+                      <tr>
+                        <td scope="row">2</td>
+                        <td scope="row">logo</td>
+                        <td scope="row">Janssen Group</td>
+                        <td scope="row">mjanssen@gmail.com</td>
+                        <td scope="row">24</td>
+                        <td scope="row">Per Post</td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-file-pen"></i></a></td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr>
+                      <tr>
+                        <td scope="row">3</td>
+                        <td scope="row">logo</td>
+                        <td scope="row">Michael Limited</td>
+                        <td scope="row">mjanssen@gmail.com</td>
+                        <td scope="row">44</td>
+                        <td scope="row">Monthly</td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-file-pen"></i></a></td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr>
+                    </tbody>
+                  </thead>
+                </table>
+              </div>
+            </div>
+            <!-- Job Seekers -->
+            <div class="row justify-content-center py-3 hidden jobSeekers">
+              <div class="col-10 manageJobSeekers">
+                <h4 class="mb-4 text-center">Manage Job Seekers</h4>
+                <table class="table table-striped table-primary">
+                  <thead class="table-success">
+                    <tr>
+                      <th scope="col">Id</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Location</th>
+                      <th scope="col" colspan="2">Action</th>
+                    </tr>
+                    <tbody class="">
+                      <tr>
+                        <td scope="row">1</td>
+                        <td scope="row">Michael Janssen</td>
+                        <td scope="row">mjanssen@gmail.com</td>
+                        <td scope="row">Lagos</td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-file-pen"></i></a></td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr>
+                      <tr>
+                        <td scope="row">2</td>
+                        <td scope="row">Michael Janssen</td>
+                        <td scope="row">mjanssen@gmail.com</td>
+                        <td scope="row">Abuja</td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-file-pen"></i></a></td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr>
+                      <tr>
+                        <td scope="row">3</td>
+                        <td scope="row">Michael Janssen</td>
+                        <td scope="row">mjanssen@gmail.com</td>
+                        <td scope="row">Imo</td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-file-pen"></i></a></td>
+                        <td scope="row"><a href="#"><i class="fa-solid fa-trash"></i></a></td>
+                      </tr>
+                    </tbody>
+                  </thead>
+                </table>
+              </div>
+            </div>
+            <!-- Settings -->
+            <div class="row justify-content-center py-3 hidden settings">
+              <div class="col">
+                <div class="row justify-content-center">
+                  <div class="col-8 handleSettings">
+                    <h4 class="my-4">Settings</h4>
+                    <div class="mb-2 adminDetails">
+                      <div class="row justify-content-around">
+                        <p class="col-10 fs-4 name">Michael Janssen </p>
+                        <a href="#" class="col-2 fs-5" id="editName">Edit</a>
+                      </div>
+                      <div class="row justify-content-around">
+                        <p class="col-10 fs-4 email">mjanssen@gmail.com</p>
+                        <a href="#" class="col-2 fs-5" id="editEmail">Edit</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Update Name -->
+                <div class="row justify-content-center py-3 updateName hidden">
+                  <div class="col-8">
+                    <form action="#" method="get">
+                      <div class="row row justify-content-center">
+                        <div class="col-8">
+                          <label for="updateName">Name</label>
+                          <input type="text" name="updateName" id="updateName" class="form-control border-secondary" />
+                          <button type="submit" class="btn btn-custom col-12 mt-4">Update</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <!-- Update Email -->
+                <div class="row justify-content-center py-3 updateEmail hidden">
+                  <div class="col-8">
+                    <form action="#" method="get">
+                      <div class="row row justify-content-center">
+                        <div class="col-8">
+                          <label for="updateEmail">Email</label>
+                          <input type="email" name="updateEmail" id="updateEmail" class="form-control border-secondary" />
+                          <button type="submit" class="btn btn-custom col-12 mt-4">Update</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>             
+          </main>
+        </div>
+      </div>
+    </div>
+
+    <!-- Jquery js -->
+    <script src="/static/scripts/jquery.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Page js -->
+    <script src="/static/scripts/admin.js"></script>
+  </body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="keyword" content="web development, job portal, remote jobs, profession, employement, recruits, hire, jobseeker,employyer, professional experience, job posting">
+        <meta name="description" content="Unlock Your Career Potential at Career Connect: Explore a Wide Range of Job Listings, Apply with Confidence, and Connect with Top Employers.
+          Our Comprehensive Platform Offers Tailored Job Matches, Expert Career Advice, and Networking Opportunities. Join Career Connect Today and Take the Next Step in Your Professional Journey!">
+        <meta name="author" content="Joachim Oforma, Igwebuike">
+        <title>CareerConnect - {{title}}</title>
+        <link href="/static/styles/stylesheet.css" rel="stylesheet">
+        <link href="/static/styles/styles.css" rel="stylesheet" />
+        <link href="/static/fontawesome/css/all.css" rel="stylesheet">
+        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon_io/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon_io/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon_io/favicon-16x16.png">
+        <link rel="manifest" href="/static/favicon_io/site.webmanifest">
+        <link href="https://cdn.datatables.net/v/bs5/dt-2.0.8/r-3.0.2/sb-1.7.1/datatables.min.css" rel="stylesheet">
+    </head>
+    {% block modal %}
+    <body class="sb-nav-fixed" style="background: lavender">
+        <nav class="sb-topnav navbar navbar-expand" style="background: #fff; height: 70px;">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3 hstack" href="{{ url_for('jobseeker_dashboard') }}">
+                <img src="/static/images/logo-light.png" alt="logo" width="40"/>
+                <small class="d-none d-md-block text-green"> CareerConnect </small>
+            </a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm d-md-none order-1 order-lg-0 me-3 me-lg-0" id="sidebarToggle">
+              <i class="fas fa-bars ms-2" style="color: rgb(46, 216, 110); font-size: 1.2rem"></i>
+            </button>
+            <!-- Navbar Search-->
+            <div class="hstack ms-auto">
+              <form action="{{url_for('search_job', page='dashboard')}}" method="post">
+                <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+                <div class="input-group">
+                  <input type="search" name="searchInput" id='searchBox' class="form-control" placeholder="Search keyword..." required />
+                  <button type="submit" class="input-group-text btn btn-success" style="border: 1px solid silver" id="searchBtn">
+                      <i class="fa-solid fa-search"></i></button>
+                </div>
+              </form>
+            </div>
+            <!-- Navbar-->
+            <ul class="navbar-nav d-none d-md-block ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: rgb(46, 216, 110)">
+                        <i class="fas fa-user fa-fw" style="font-size: 1.3rem; color: rgb(46, 216, 110);"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="background: lavender">
+                        <li><a class="dropdown-item" href="{{ url_for('profile_settings') }}"><i class="fas fa-circle-user"></i> My Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('account_settings') }}"><i class="fas fa-gear"></i> Account Settings</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-target="#notifications" data-bs-toggle="offcanvas"><i class="fas fa-bell"></i> Notification Settings</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ url_for('jobseeker_logout') }}"><i class="fas fa-right-to-bracket"></i> Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion" id="sidenavAccordion" style="background-color: #fff;">
+                    <div class="sb-sidenav-menu mb-5">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading"><i class="fas fa-tachometer-alt"></i> Dashboard</div>
+                            <a class="nav-link" href="{{ url_for('jobseeker_dashboard') }}">
+                              <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                              Home
+                          </a>
+                            <a class="nav-link" href="{{ url_for('jobseeker_dashboard') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-briefcase"></i></div>
+                                Jobs
+                            </a>
+                             <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                Forum
+                            </a>
+                            <div class="sb-sidenav-menu-heading"><i class="fas fa-user"></i> Profile</div>
+                            <a class="nav-link" href="{{ url_for('profile_settings') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-circle-user"></i></div>
+                                My Profile
+                            </a>
+                            <div class="sb-sidenav-menu-heading"><i class="fas fa-gears"></i> Settings</div>
+                            <a class="nav-link" href="{{ url_for('account_settings') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-gear"></i></div>
+                                Account Settings
+                            </a>
+                            <a class="nav-link" href="#" data-bs-target="#notifications" data-bs-toggle="offcanvas">
+                                <div class="sb-nav-link-icon"><i class="fas fa-bell"></i></div>
+                                Notification Settings
+                            </a>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fas fa-message"></i></div>
+                                Contact Support
+                            </a>
+                            <a class="nav-link" href="{{url_for('jobseeker_logout')}}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-right-to-bracket"></i></div>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <span class="small">Logged in as:</span> <span class="text-green"> Job seeker</span>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content" style="min-height: 960px;" class="mt-1">
+                {% block subnav %}
+                    <!-- Profile -->
+                    <section class="sub-menu">
+                        <div class="card border-0" style="background-color: #ddf7f5;">
+                         <div class="text-blue ps-3 d-flex mt-3">
+                              <img
+                                src="/static/photos/{% if userid.jobseeker_dp %}{{userid.jobseeker_dp}}{% else %}avatar.jpeg{% endif %}"
+                                alt="profile"
+                                class="img-round"
+                              />
+                            <div class="m-3">
+                              <span class="fs-4"> Welcome, {{ userid.jobseeker_fname }}!</span>                              
+                               <p class="fs-5">Your profile is <span class={{user_progress.color}}> {{user_progress.progress}}% </span>completed</p>                           
+                            </div>
+                         </div>
+                         <div class="card-footer p-0">
+                             <div class="row">
+                                <div class="col shortcut">
+                                  <a href="{{url_for('jobseeker_dashboard')}}" class="{% if page=='dashboard' %} jsactive {% endif %} ps-3"> Jobs</a>
+                                  <a href="{{url_for('bookmarked_jobs')}}" class="{% if page=='bookmark' %} jsactive {% endif %}">Bookmarks</a>
+                                  <a href="{{url_for('applications')}}" class="{% if page=='applications' %} jsactive {% endif %}">Application</a>
+                                </div>
+                            </div>
+                         </div>
+                     </div>
+                        {% set message = get_flashed_messages(with_categories=True) %}
+                          {% for cat, msg in message %}
+                            {% if cat=='info' %}
+                              <div class="alert alert-warning"><i class="fas fa-circle-info"></i> {{msg}}</div>
+                            {% endif %}
+                          {% endfor %}
+                    </section>
+                     <!-- Profile Ends-->
+
+                {% endblock subnav %}
+
+                {% block content %}
+
+                {% endblock content %}
+
+                {% block footer %}
+                    {% include "utilities/footer.html" %}
+                {% endblock footer %}
+            </div>
+        </div>
+
+    {% endblock modal %}
+
+    <!-- Notification settings -->
+      <div
+      class="offcanvas offcanvas-end"
+      data-bs-backdrop="static"
+      tabindex="-1"
+      id="notifications"
+      aria-labelledby="notifications"
+    >
+      <div class="offcanvas-header" style="position: relative; background: #d7f0ee">
+        <div style="position: absolute; top: 10px; right: 15px">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+        ></button>
+        </div>
+        <h5><i class="fas fa-bell"></i> Notification Settings <span class="badge bg-danger small">Coming soon</span></h5>
+      </div>
+      <div class="offcanvas-body">
+         <div class="">
+           <p class="text-secondary" style="font-size: 0.8rem"> NOTIFICATION CHANNELS</p>
+           <hr>
+           <div class="d-flex justify-content-between">
+                 <span><i class="fa-regular fa-bell text-primary"></i> Allow push notifications </span>
+                 <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch">
+                 </div>
+             </div>
+           <hr>
+           <p class="text-secondary" style="font-size: 0.8rem"> NOTIFICATION TYPES</p>
+           <hr>
+           <div class="d-flex justify-content-between mb-3">
+                 <span><i class="fa-regular fa-star text-primary"></i> Newly published jobs that matches you </span>
+                 <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch">
+                 </div>
+             </div>
+           <hr>
+           <div class="d-flex justify-content-between mb-3">
+                 <span><i class="fas fa-clock text-primary"></i> Daily job alerts </span>
+                 <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch">
+                 </div>
+             </div>
+           <hr>
+           <div class="d-flex justify-content-between mb-3">
+                 <span><i class="fas fa-circle-info text-primary"></i> Job application status updates</span>
+                 <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch">
+                 </div>
+             </div>
+           <hr>
+           <div class="d-flex justify-content-between mb-3">
+                 <span><i class="fa-regular fa-message text-primary"></i> Messages notifications</span>
+                 <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch">
+                 </div>
+             </div>
+         </div>
+      </div>
+    </div>
+    <!-- Notification settings -->
+  
+    <!-- messaging -->
+      <div
+        class="modal fade"
+        id="messaging"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="messagingLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-fullscreen">
+          <div class="modal-content">
+            <div class="modal-body m-0">
+              <div class="row justify-content-end">
+                  <div class="col-md-4 fixed-top" style="height: 100%; background: red; overflow: scroll">
+                  </div>
+                  <div class="col-md-8">
+                      <div class="card fixed-right" style="height: 100%; border-radius: 0px">
+                          <div class="card-header d-flex justify-content-end">
+                              <button
+                              title="Close display message"
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close">
+                              </button>
+                          </div>
+                          <div class="card-body text-light" style="min-height: 100%;">
+                              <div>
+                                  <span class="bg-secondary p-2" style="border-radius: 8px">Hi!</span>
+                              </div>
+                              <div class="d-flex justify-content-end">
+                                  <span class="bg-primary p-2" style="border-radius: 8px">Hello!</span>
+                              </div>
+                          </div>
+                          <div class="card-footer">
+                              <form action="" method="post">
+                                  <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                                  <div class="row justify-content-center align-items-center">
+                                      <div class="col-md-10">
+                                        <input type="text" name="message" class="form-control form-control-lg">
+                                      </div>
+                                      <div class="col-md-2">
+                                          <button type="submit" class="btn btn-primary">Send</button>
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- messaging -->
+
+        <script src="/static/scripts/jquery.min.js"></script>
+        <script src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/static/scripts/script.js"></script>
+        <script src="/static/scripts/scripts.js"></script>
+        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+        <script>
+          $(document).ready(function(){
+            $('#searchBtn').click(function(){
+              let keyword = $('#searchBox').val();
+              $.ajax({
+                url: "/search-job/",
+                type: "POST",
+                data: {"keyword": keyword, "csrf": "{{csrf_token()}}"},
+              });
+            });
+          });
+        </script>
+        {% block customJS %}{% endblock customJS %}
+    </body>
+</html>

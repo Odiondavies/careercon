@@ -1,0 +1,119 @@
+{% extends "jobseeker/layout.html" %}
+
+{% block content %}
+<main style="min-height: 420px">
+    {% if matching_jobs %}
+    <!-- Matching Jobs -->
+    <div>
+      <p class="text-black ms-3 my-3">Matching jobs for you</p>
+      <div class="row row-cols-md-2 row-cols-1 row-cols-lg-3 row-cols-xl-3 g-3 p-4">
+        {% for job in matching_jobs %}
+          {% if job.job_status == 'Available' %}
+            <div class="col">
+            <div class="card p-3">
+                <div class="d-flex">
+                    <img
+                      src="/static/logos/{% if job.job_employer.employer_company_logo %}{{ job.job_employer.employer_company_logo }}{% else %}avatar.jpeg{% endif %}"
+                      alt=""
+                      width="50"
+                      height="50"
+                    />
+                    <h6 class="ms-3 align-self-center text-wrap">{{ job.job_title }}</h6>
+                  </div>
+                  {% if job.job_bookmark %}
+                    <a class="btn btn-icon icon" href="{{ url_for('remove_bookmark', jobid=job.job_id, title='Dashboard') }}">
+                      <i class="fa-bookmark fa-solid bm-icon" onclick="bookmark()"></i>
+                    </a>
+                  {% else %}
+                    <a class="btn btn-icon icon" href="{{ url_for('add_bookmark', jobid=job.job_id, title='Dashboard') }}">
+                      <i class="fa-bookmark fa-regular bm-icon" onclick="bookmark()"></i>
+                    </a>
+                  {% endif %}
+                  <div class="title text-center">
+                    <h6 class="card-subtitle my-2 text-body-secondary">
+                      {{ job.job_employer.employer_company_name }}
+                    </h6>
+                    <h6 class="card-subtitle my-2 text-body-secondary">
+                      {{ job.job_lga.lga_name }}, {{ job.job_state.state_name }} State
+                    </h6>
+                  </div>
+                  <p class="card-text text-primary d-flex justify-content-center">
+                    <span class="job_info"> {{ job.job_mode }} </span>
+                    <span class="job_info"> {{ job.job_type }} </span>
+                    <span class="job_info"> {{ job.job_level.level_name }} </span>
+                  </p>
+                  <div class="card-text d-flex justify-content-between align-items-center">
+                    <a href="{{url_for('job_details', id=job.job_id)}}"
+                      type="button"
+                      class="text-green btn btn-icon"
+                      style="text-decoration: none;">View Details
+                    </a>
+                    <span class="text-muted" style="font-size:small"> Posted on: {{job.posted_on.strftime('%B %d, %Y')}}</span>
+                  </div>
+                </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+    <!-- Matching Jobs -->
+    {% endif %}
+    {% if jobs %}
+    <!-- Latest Jobs-->
+    <div>
+        <p class="text-black ms-3 my-3">Latest jobs.</p>
+        <div class="row row-cols-md-2 row-cols-1 row-cols-lg-3 row-cols-xl-3 g-3 p-4 mb-5">
+          {% for job in jobs %}
+            {% if job.job_status == 'Available' %}
+             <div class="col">
+            <div class="card p-3">
+                <div class="d-flex">
+                  <img
+                    src="/static/logos/{% if job.job_employer.employer_company_logo %}{{ job.job_employer.employer_company_logo }}{% else %}avatar.jpeg{% endif %}"
+                    alt=""
+                    width="50"
+                    height="50"
+                  />
+                  <h6 class="ms-3 align-self-center text-wrap">{{ job.job_title }}</h6>
+                </div>
+                {% if job.job_bookmark %}
+                  <a class="btn btn-icon icon" href="{{ url_for('remove_bookmark', jobid=job.job_id, title='Dashboard') }}">
+                    <i class="fa-bookmark fa-solid bm-icon" onclick="bookmark()"></i>
+                  </a>
+                {% else %}
+                  <a class="btn btn-icon icon" href="{{ url_for('add_bookmark', jobid=job.job_id, title='Dashboard') }}">
+                    <i class="fa-bookmark fa-regular bm-icon" onclick="bookmark()"></i>
+                  </a>
+                {% endif %}
+                  <div class="title text-center">
+                    <h6 class="card-subtitle my-2 text-body-secondary">
+                      {{ job.job_employer.employer_company_name }}
+                    </h6>
+                    <h6 class="card-subtitle my-2 text-body-secondary">
+                      {{ job.job_lga.lga_name }}, {{ job.job_state.state_name }} State
+                    </h6>
+                  </div>
+                  <p class="card-text text-primary d-flex justify-content-center">
+                    <span class="job_info"> {{ job.job_mode }} </span>
+                    <span class="job_info"> {{ job.job_type }} </span>
+                    <span class="job_info"> {{ job.job_level.level_name }} </span>
+                  </p>
+                  <div class="card-text d-flex justify-content-between align-items-center">
+                    <a href="{{url_for('job_details', id=job.job_id)}}"
+                      type="button"
+                      class="text-green btn btn-icon"
+                      style="text-decoration: none;">View Details
+                    </a>
+                    <span class="text-muted" style="font-size:small"> Posted on: {{job.posted_on.strftime('%B %d, %Y')}}</span>
+                  </div>
+                  </div>
+                </div>
+            {% endif %}
+          {% endfor %}
+      </div>
+      </div>
+    <!-- Matching Jobs -->
+    {% endif %}
+</main>
+
+{% endblock content %}

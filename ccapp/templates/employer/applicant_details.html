@@ -1,0 +1,46 @@
+{% extends "employer/layout.html" %}
+{% block modal %}
+<!-- Apply for job -->
+    <div class="card">
+      <div class="card-header d-flex justify-content-end">
+        <a type='button' class="btn-close" href="{{url_for('job_details', id=job.job_id)}}"> </a>
+      </div>
+      <div class="card-body" style="background-color: #f0efed">
+        <div class="row justify-content-center mb-4">
+          <div class="col-md-7 col-sm-10 apply px-5">
+                <h4 class="mb-4"> Applicant Details </h4>
+                    <div class="row">
+                        {% for applicant in applications %}
+                        <div class="col-5 mb-3">
+                        <p>Firstname: <span class="fs-5">{{applicant.application_jobseeker.jobseeker_fname}}</span> </p>
+                        <p>Phone: <span class="fs-5">{{applicant.application_jobseeker.jobseeker_phone}}</span></p>
+                        <p>Gender: <span class="fs-5">{{applicant.application_jobseeker.jobseeker_gender}}</span></p>
+                        </div>
+                        <div class="col-5 mb-3">
+                        <p>Lastname: <span class="fs-5">{{applicant.application_jobseeker.jobseeker_lname}} </span></p>
+                        <p>Location: <span class="fs-5">{{applicant.application_jobseeker.jobseeker_state.state_name}}</span></p>
+                        <p>Professional Level:  <span class="fs-5">{{applicant.application_jobseeker.jobseeker_level.level_name}}</span></p>
+                        </div>
+                        <div class="mb-3">
+                        <p>Profession: <span class="fs-5">{{applicant.application_jobseeker.jobseeker_category.category_name}}</span></p>
+                        </div>
+                        {% endfor %}
+                        <form action="{{url_for('applicant_details', id=applicant.application_jobseekerid)}}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+
+                <div class="mb-3">
+                <h4>Change Application Status</h4>
+                <select class="select-sm">
+                <option value="1">Accepted</option>
+                <option value="2">Pending</option>
+                <option value="3">Three</option>
+                </select>
+                </div>
+                </form>
+                    </div>
+                </div>
+        </div>
+      </div>
+    </div>
+<!-- Apply for job Ends-->
+{% endblock modal %}

@@ -1,0 +1,60 @@
+{% extends "admin/layout.html" %}
+
+{% block subnav %}
+    <div class="card mb-3 border-0" style="border-radius: 0px; background: #ddf7f5">
+        <div class="card-header">
+            <h3 class="mt-2">All Jobseekers</h3>
+        </div>
+        <p class="ps-3 mt-1"> The list of all registered jobseekers.</p>
+    </div>
+{% endblock subnav %}
+
+{% block content %}
+{% if jobseekers %}
+<main>
+  <div class="container-fluid px-4" style="min-height: 420px">
+    <table class="table bg-light myTable">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Location</th>
+          <th scope="col">Profession</th>
+          <th scope="col">Professional Level</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for jobseeker in jobseekers %}
+        {% if jobseeker %}
+        <tr>
+          <th scope="row">{{loop.index}}</th>
+          <td>{{jobseeker.jobseeker_fname}} {{jobseeker.jobseeker_lname}}</td>
+          <td>{{jobseeker.jobseeker_email}}</td>
+          <td> {{jobseeker.jobseeker_state.state_name}}</td>
+          <td> {{jobseeker.jobseeker_category.category_name}}</td>
+          <td> {{jobseeker.jobseeker_level.level_name}}</td>
+          <td>
+              <a href="{{url_for('delete_jobseeker', id=jobseeker.jobseeker_id)}}/" class="btn btn-sm btn-danger" onclick="return confirm('Do you really want to delete {{jobseeker.jobseeker_fname}} {{jobseeker.jobseeker_fname}}?')">Delete</a>
+          </td>
+        </tr>
+      {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>    
+  </div>
+</main>
+{% else %}
+<div class="row my-5">
+  <h6 class="text-center">No jobseekers list found.</h6>
+</div>
+{% endif %}
+{% endblock content %}
+{% block customJS %}
+<script>
+  $(document).ready( function () {
+    $('.myTable').DataTable();
+} );
+</script>
+{% endblock customJS %}

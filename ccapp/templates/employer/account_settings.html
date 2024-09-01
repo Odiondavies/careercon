@@ -1,0 +1,47 @@
+{% extends "employer/layout.html" %}
+
+{% block subnav %}
+  <div class="card mb-3 border-0" style="border-radius: 0px; background: #d7f0ee">
+      <div class="card-header">
+        <h3 class="mt-2">Account Settings</h3>
+      </div>
+    <p class="ps-3 mt-1">You can update your password, or delete your account. </p>
+  </div>
+{% endblock subnav %}
+{% block content %}
+    <main>
+      <div class="container-fluid px-4 mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+              {% set messages = get_flashed_messages(with_categories=True) %}
+                {% for cat, msg in messages %}
+                    {% if cat == 'error' %}
+                        <div class="alert alert-danger"><i class="fas fa-circle-info"></i> {{msg}}</div>
+                    {% else %}
+                        <div class="alert alert-success"><i class="fas fa-circle-info"></i> {{msg}}</div>
+                    {% endif %}
+                {% endfor %}
+                <form action="{{url_for('settings')}}" method="post">
+                    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                    <div class="card p-3 mb-3">
+                      <div class="form-floating mb-3">
+                        <input type="password" name="password" id="pass" class="form-control border-secondary"/>
+                        <label>Password*</label>
+                      </div>
+                      <div class="form-floating mb-3">
+                        <input type="password" name="confPassword" id="confPass" class="form-control border-secondary"/>
+                        <label>Confirm password*</label>
+                      </div>
+                      <button type="submit" class="btn btn-primary col-lg-4 col-12 my-3" id="updatePass"> Save Changes </button>
+                    </div>
+                      <div class="card p-3 my-5">
+                        <label class="fs-5 text-blue">Deleting your account</label>
+                        <p class="my-2">By clicking on this button your account will be deleted forever.</p>
+                        <a type="button" href="{{url_for('delete_employer_account', id=empid.employer_id)}}/" class="btn btn-danger col-lg-4 col-12 my-3" onclick="return confirm('Do you really want to delete your account?')"> Delete </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+      </div>
+    </main>
+{% endblock content %}

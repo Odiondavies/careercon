@@ -1,0 +1,79 @@
+{% extends "employer/layout.html" %}
+{% block subnav %} {% endblock subnav %}
+
+{% block content %}
+    <div class="container-fluid px-4 my-5" style="min-height: 440px">
+        <div class="row flex-wrap g-4">
+            {% with message = get_flashed_messages() %}
+              {% for msg in message%}
+                <div class="alert alert-warning"><i class="fas fa-circle-info"></i> {{msg}}</div>
+              {% endfor %}
+            {% endwith %}
+            <div class="col-lg-4">
+                <div class="card bg-info">
+                <div class="card-body hstack">
+                   <div>
+                     <h5><i class="fas fa-briefcase"></i></h5>
+                    <h5>Total Job Listings</h5>
+                   </div>
+                    <div class="ms-auto">
+                        <h1>{{total_jobs}}</h1>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card bg-primary">
+                <div class="card-body hstack">
+                   <div>
+                     <h5><i class="fas fa-users"></i></h5>
+                    <h5>Applications</h5>
+                   </div>
+                    <div class="ms-auto">
+                        <h1>{{total_applications}}</h1>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card bg-success text-light">
+                <div class="card-body hstack">
+                   <div>
+                     <h5><i class="fas fa-user"></i></h5>
+                    <h5>Approved for Interview</h5>
+                   </div>
+                    <div class="ms-auto">
+                        <h1>{{successful_applications}}</h1>
+                    </div>
+                </div>
+            </div>
+            </div>
+             <div class="col-lg-4">
+                <div class="card bg-warning">
+                <div class="card-body hstack">
+                   <div>
+                     <h5><i class="fas fa-briefcase"></i></h5>
+                    <h5>Available Job Listings</h5>
+                   </div>
+                    <div class="ms-auto">
+                        <h1>{{ongoing_jobs}}</h1>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card bg-danger text-light">
+                <div class="card-body hstack">
+                   <div>
+                     <h5><i class="fas fa-briefcase"></i></h5>
+                    <h5>Closed Job Listings</h5>
+                   </div>
+                    <div class="ms-auto">
+                        <h1>{{closed_jobs}}</h1>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

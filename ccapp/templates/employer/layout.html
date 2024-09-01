@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="keyword" content="web development, job portal, remote jobs, profession, employement, recruits, hire, jobseeker,employyer, professional experience, job posting">
+        <meta name="description" content="Unlock Your Career Potential at Career Connect: Explore a Wide Range of Job Listings, Apply with Confidence, and Connect with Top Employers.
+          Our Comprehensive Platform Offers Tailored Job Matches, Expert Career Advice, and Networking Opportunities. Join Career Connect Today and Take the Next Step in Your Professional Journey!">
+        <meta name="author" content="Joachim Oforma, Igwebuike">
+        <title>CareerConnect - {{title}}</title>
+        <link href="/static/styles/styles.css" rel="stylesheet" />
+        <link href="/static/styles/stylesheet.css" rel="stylesheet">
+        <link href="/static/fontawesome/css/all.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon_io/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon_io/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon_io/favicon-16x16.png">
+        <link rel="manifest" href="/static/favicon_io/site.webmanifest">
+        <link href="https://cdn.datatables.net/v/bs5/dt-2.0.8/r-3.0.2/sb-1.7.1/datatables.min.css" rel="stylesheet">
+ 
+    </head>
+    {% block modal %}
+    <body class="sb-nav-fixed" style="background: lavender">
+        <nav class="sb-topnav navbar navbar-expand" style="background: #fff; height: 70px;">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3 hstack" href="{{ url_for('employer_dashboard') }}">
+                <img src="/static/images/logo-light.png" alt="logo" width="40"/>
+                <small class="d-none d-md-block text-green"> CareerConnect </small>
+            </a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm d-md-none order-1 order-lg-0 me-3 me-lg-0" id="sidebarToggle">
+                <i class="fas fa-bars ms-2" style="color: rgb(46, 216, 110); font-size: 1.2rem"></i>
+            </button>
+            <!-- Navbar Search-->
+            <form class="d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                 <div class="" style="font-size: 1.3rem">
+                 <a href="#"><i class="fa-regular fa-bell" style="color: rgb(46, 216, 110);"></i></a>
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav d-none d-md-block ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: rgb(46, 216, 110)">
+                        <i class="fas fa-user fa-fw" style="font-size: 1.3rem; color: rgb(46, 216, 110);"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" style="background: lavender">
+                        <li><a class="dropdown-item" href="{{ url_for('profile') }}"><i class="fas fa-circle-user"></i> My Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('settings') }}"><i class="fas fa-gear"></i> Account Settings</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="offcanvas" data-bs-target="#notifications"><i class="fas fa-gear"></i> Notification Settings</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ url_for('employer_logout') }}"><i class="fas fa-right-to-bracket"></i> Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion" id="sidenavAccordion" style="background-color: #fff;">
+                    <div class="sb-sidenav-menu mb-5">
+                        <div class="nav">
+                            <div class="d-flex flex-column mt-3 ms-3">
+                                 <img
+                                    src="/static/logos/{% if empid.employer_company_logo %}{{empid.employer_company_logo}}{% else %}avatar.jpeg{% endif %}"
+                                   class="img-round-xm ms-5"/>
+                                <p> {{ empid.employer_company_name }}</p>
+                            </div>
+                            <a class="nav-link" href="{{url_for('employer_dashboard')}}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                                Home
+                            </a>
+                           <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Manage Jobs
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="{{url_for('view_jobs')}}"><i class="fas fa-chart-area me-2"></i> All Jobs </a>
+                                    <a class="nav-link" href="{{url_for('view_applications')}}"><i class="fas fa-pen me-2"></i> All Applications </a>
+                                    <a class="nav-link" href="{{url_for('addjob')}}"><i class="fas fa-upload me-2"></i> Add Job </a>
+                                </nav>
+                            </div>
+                             <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                Forum
+                            </a>
+                            <div class="sb-sidenav-menu-heading"><i class="fas fa-user"></i> Profile</div>
+                            <a class="nav-link" href="{{ url_for('profile') }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-circle-user"></i></div>
+                                My Profile
+                            </a>
+                            <div class="sb-sidenav-menu-heading"><i class="fas fa-gears"></i> Settings</div>
+                            <a class="nav-link" href="{{url_for('settings')}}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-gear"></i></div>
+                                Account Settings
+                            </a>
+                            <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#notifications">
+                                <div class="sb-nav-link-icon"><i class="fas fa-bell"></i></div>
+                                Notification Settings
+                            </a>
+                            <a class="nav-link" href="">
+                                <div class="sb-nav-link-icon"><i class="fas fa-message"></i></div>
+                                Contact Support
+                            </a>
+                            <a class="nav-link" href="{{url_for('employer_logout')}}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-right-to-bracket"></i></div>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <span class="small">Logged in as:</span> <span class="text-success"> Employer</span>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content" style="min-height: 960px;" class="mt-1">
+                {% block subnav %}
+
+                {% endblock subnav %}
+
+                {% block content %}
+
+                {% endblock content %}
+
+                {% include "utilities/footer.html" %}
+            </div>
+        </div>
+    {% endblock modal %}
+     <!-- Notification settings -->
+      <div
+      class="offcanvas offcanvas-end"
+      data-bs-backdrop="static"
+      tabindex="-1"
+      id="notifications"
+      aria-labelledby="notifications"
+    >
+      <div class="offcanvas-header" style="position: relative; background: #d7f0ee">
+        <div style="position: absolute; top: 10px; right: 15px">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+        ></button>
+        </div>
+        <h5><i class="fas fa-bell"></i> Notification Settings  <span class="badge bg-danger small">Coming soon</span></h5>
+      </div>
+<!--          style="background: url('/static/images/art-2540641_640.webp')"-->
+      <div class="offcanvas-body">
+         <div class="">
+           <p class="text-secondary" style="font-size: 0.8rem"> NOTIFICATION CHANNELS</p>
+           <hr>
+           <div class="d-flex justify-content-between">
+                 <span><i class="fa-regular fa-bell text-primary"></i> Allow push notifications </span>
+                 <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch">
+                 </div>
+             </div>
+           <hr>
+           <p class="text-secondary" style="font-size: 0.8rem"> NOTIFICATION TYPES</p>
+           <hr>
+           <div class="d-flex justify-content-between mb-3">
+                 <span><i class="fas fa-briefcase text-primary"></i> Job Listings </span>
+                 <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch">
+                 </div>
+             </div>
+           <hr>
+           <div class="d-flex justify-content-between mb-3">
+                 <span><i class="fas fa-circle-info text-primary"></i> Job applications </span>
+                 <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch">
+                 </div>
+             </div>
+           <hr>
+           <div class="d-flex justify-content-between mb-3">
+                 <span><i class="fa-regular fa-message text-primary"></i> Messages notifications</span>
+                 <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" role="switch">
+                 </div>
+             </div>
+         </div>
+      </div>
+    </div>
+     <!-- Notification settings -->
+        <script src="/static/scripts/jquery.min.js"></script>
+        <script src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/static/scripts/scripts.js"></script>
+        <script src="/static/scripts/script.js"></script>
+        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+        <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+        {% block customJS %}
+        {% endblock customJS %}
+    </body>
+</html>

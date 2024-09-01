@@ -1,0 +1,63 @@
+{% extends "employer/layout.html" %}
+{% block modal %}
+<!-- Apply for job -->
+    <div class="card">
+      <div class="card-body" style="background-color: #f0efed">
+        <div class="row justify-content-center mb-4">
+          <div class="col-md-7 col-sm-10 apply px-5">
+              {% set messages = get_flashed_messages(with_categories=True) %}
+              {% for cat, message in messages %}
+                {% if cat=='success' %}
+                    <div class="alert alert-success"> <i class="fas fa-circle-check"></i> {{message}}</div>
+                {% else %}
+                    <div class="alert alert-danger"> <i class="fas fa-circle-xmark"></i> {{message}}</div>
+                {% endif %}
+              {% endfor %}
+                <h4 class="mb-4"> Applicant Details </h4>
+                <div class="row justify-content-between">
+                    {% if application_deets %}
+                    <div class="col-5 mb-3">
+                    <p>Firstname: <span class="fs-5">{{application_deets.application_jobseeker.jobseeker_fname}}</span> </p>
+                    <p>Phone: <span class="fs-5">{{application_deets.application_jobseeker.jobseeker_phone}}</span></p>
+                    <p>Gender: <span class="fs-5">{{application_deets.application_jobseeker.jobseeker_gender}}</span></p>
+                    </div>
+                    <div class="col-6 mb-3">
+                    <p>Lastname: <span class="fs-5">{{application_deets.application_jobseeker.jobseeker_lname}} </span></p>
+                    <p>Location: <span class="fs-5">{{application_deets.application_jobseeker.jobseeker_state.state_name}}</span></p>
+                    <p>Professional Level:  <span class="fs-5">{{application_deets.application_jobseeker.jobseeker_level.level_name}}</span></p>
+                    </div>
+                    <div class="mb-3">
+                      <p>Date of birth: <span class="fs-5">{{application_deets.application_jobseeker.dob.strftime('%B %d, %Y')}}</span></p>
+                    <p>Profession: <span class="fs-5">{{application_deets.application_jobseeker.jobseeker_category.category_name}}</span></p>
+                    <p>Application Status: <span class="fs-5">{{application_deets.application_status}}</span></p>
+                    </div>
+                    {% endif %}
+                    <form action="{{url_for('applicants', id=application_deets.application_jobseekerid)}}" method="post" enctype="multipart/form-data">
+                      <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                       <div class="row align-items-center">
+                            <div class="col mb-3">
+                                <label>Update Application Status</label>
+                                <select class="select-sm" name="status">
+                                    <option>Select</option>
+                                    <option value="Accepted">Accepted</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Declined">Declined</option>
+                                </select>
+                            </div>
+                            <div class="col mb-3 vstack">
+                                <label class="mb-2">Contact Applicant</label>
+                                <textarea name="feedback" cols="10" rows="2"></textarea>
+                            </div>
+                           <div class="col my-3 d-flex justify-content-between">
+                               <a href="{{url_for('view_applications')}}"><i class="fas fa-arrow-left"></i> Back to applications</a>
+                               <button class="btn btn-primary col-6">Done!</button>
+                           </div>
+                       </div>
+                    </form>
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- Apply for job Ends-->
+{% endblock modal %}

@@ -1,0 +1,102 @@
+{% extends "jobseeker/layout.html" %}
+
+{% block modal %}
+
+<!-- Apply for job -->
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
+          <a href="{{url_for('job_details', id=job.job_id)}}" style="text-decoration: none;"> <i class="fas fa-arrow-left"></i>
+            Job Details
+          </a>
+        </h4>       
+      </div>
+      <div class="card-body" style="background-color: #f0efed">
+        <div class="row justify-content-center mb-4">
+          <div class="col-md-7 col-sm-10 apply px-5">
+            {% set messages = get_flashed_messages(with_categories=True) %}
+                {% for cat, msg in messages %}
+                  {% if cat == 'success' %}
+                    <div class="alert alert-success"><i class="fas fa-circle-info"></i> {{msg}}</div>
+                  {% else %}
+                    <div class="alert alert-danger"><i class="fas fa-circle-info"></i> {{msg}}</div>
+                  {% endif %}
+                {% endfor %}
+            <h4 class="mb-4"> Application Details </h4>
+            <div class="row">
+              <div class="col-5 mb-3">
+                  <p>Firstname: <span class="fs-5">{{userid.jobseeker_fname}}</span> </p>
+                  <p>Phone: <span class="fs-5">{{userid.jobseeker_phone}}</span></p>
+                  <p>Location: <span class="fs-5">{{userid.jobseeker_state.state_name}}</span></p>
+                </div>
+                <div class="col-5 mb-3">
+                  <p>Lastname: <span class="fs-5">{{userid.jobseeker_lname}} </span></p>
+                  <p>Gender: <span class="fs-5">{{userid.jobseeker_gender}}</span></p>
+                  <p>City: <span class="fs-5">{{userid.jobseeker_lga.lga_name}}</span></p>
+                </div>
+                <div class="mb-3">
+                 <p>Date of Birth:  <span class="fs-5">{% if userid.dob %}{{userid.dob.strftime('%d-%m-%Y')}}{% endif %}</span></p>
+                 <p>Professional Level:  <span class="fs-5">{{userid.jobseeker_level.level_name}}</span></p>
+                  <p>Profession: <span class="fs-5">{{userid.jobseeker_category.category_name}}</span></p>
+                  <p> My CV: <a href="/show/cv/{{userid.jobseeker_cv}}" class="fs-5" target="_blank">{{userid.jobseeker_cv}}</a></p>
+               </div>
+                <form action="{{url_for('apply', id=job.job_id)}}" method="post" enctype="multipart/form-data">
+                  <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                  <div class="jobSeekerDetails">
+
+                    <div class="mb-3">
+                      <label for="motivation" class="my-3 fs-5">Your Motivations.<span class="text-danger">*</span></label>
+                        <p>Motivation is required.</p>
+                      <textarea
+                        name="motivation"
+                        id="motivation"
+                        cols="20"
+                        rows="3"
+                        class="form-control border-secondary"
+                        placeholder="Your motivations"
+                      ></textarea>
+                    </div>
+                    <div class="my-3">
+                      <p class="fs-4">Attestation<span class="text-danger">*</span></p>
+                      <p> Self Attestation is required.</p>
+                      <p class="text-justify" style="line-height: 2.2rem">
+                        I {{userid.jobseeker_fname}} {{userid.jobseeker_lname.upper()}}, wholeheartedly attest that all information provided are accurate and commemorate my exceptional capabilities.
+                        In my professional career, I exonerate my commitment to excellence, innovative problem-solving skills, and ability to work collaboratively
+                        have consistently stood out. I possess a remarkable work ethic and a high level of integrity, making me a valuable asset to any team.
+                        I strongly believe I can contribute positively to the company objectives and drive success.
+                      </p>
+                      <p> <span class="text-danger">*</span> Please ensure to sign electronically with your fullname. </p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                      <input type="checkbox" name="attest" id="attest" />
+                      <span class="ms-2 fs-5">
+                        Yes, I agree to sign electronically.</span>
+                    </div>
+                    <div class="my-3 fs-5 sign hidden">
+                      <label for="sign" class="mb-3">Your Fullname<span class="text-danger"> *</span></label>
+                      <textarea
+                        name="sign"
+                        id="sign"
+                        cols="20"
+                        rows="3"
+                        class="form-control border-secondary"
+                      ></textarea>
+                    </div>
+                    <div class="my-4">
+                      <input
+                        type="submit"
+                        value="Submit Application"
+                        class="btn btn-success"
+                        id="submitApplication"
+                      />
+                    </div>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- Apply for job Ends-->
+
+{% endblock modal %}

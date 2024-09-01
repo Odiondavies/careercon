@@ -1,0 +1,63 @@
+{% extends "employer/layout.html" %}
+  {% block subnav %}
+     <div class="card mb-3 border-0" style="border-radius: 0px; background: #d7f0ee">
+      <div class="card-header">
+        <h3 class="mt-2">Applications</h3>
+      </div>
+    <p class="ps-3 mt-1">Here is a list of all applications received. </p>
+  </div>
+  {% endblock subnav %}
+{% block content %}
+{% if applications %}
+<main style="min-height: 420px" class="mx-4">
+    <table class="table bg-light myTable">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Applicants</th>
+          <th scope="col">Level</th>
+          <th scope="col">Job Title</th>
+          <th scope="col">Applied On</th>
+          <th scope="col">CV</th>
+          <th scope="col">Status</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for app in applications %}
+        {% if app %}
+          <tr>
+          <th scope="row">{{loop.index}}</th>
+          <td>{{app.application_jobseeker.jobseeker_fname}} {{app.application_jobseeker.jobseeker_lname}}</td>
+          <td>{{app.application_job.job_level.level_name}}</td>
+          <td>{{app.application_job.job_title}}</td>
+          <td>{{app.applied_on}}</td>
+          <td><a href="/show/cv/{{app.application_jobseeker_cv}}" target="_blank" class="btn btn-sm btn-primary">CV</a></td>
+          {% if app.application_status == 'Accepted' %}
+              <td><a class="btn btn-sm btn-success">{{app.application_status}}</a></td>
+            {% elif app.application_status == 'Pending' %}
+              <td><a class="btn btn-sm btn-warning">{{app.application_status}}</a></td>
+            {% else %}
+              <td><a class="btn btn-sm btn-danger">{{app.application_status}}</a></td>
+            {% endif %}
+          <td> <a href="{{url_for('applicants', id=app.application_jobseekerid)}}" class="btn btn-sm btn-primary">View</a> </td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+</main>
+{% else %}
+    <div class="row my-5" style="min-height: 320px;">
+      <h6 class="text-center">You have not received any applications yet.</h6>
+  </div>
+{% endif %}
+
+{% endblock content %}
+{% block customJS %}
+<script>
+  $(document).ready( function () {
+    $('.myTable').DataTable();
+} );
+</script>
+{% endblock customJS %}

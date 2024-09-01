@@ -1,0 +1,85 @@
+{% extends "utilities/layout.html" %}
+{% block nav %}
+  <header class="sticky-top" style="background: #fff">
+    <div class="row">
+      <div class="col">
+        <nav class="navbar navbar-expand-lg bg-body-light">
+          <div class="container-fluid">
+            <a
+              class="navbar-brand d-flex align-items-center text-blue"
+              href="{{url_for('home')}}"
+              ><img src="/static/images/logo-light.png" alt="logo" />
+              <small> CareerConnect </small>
+            </a>
+              <form action="{{url_for('search_job', page='Home')}}" method="post" role='search' class='d-flex'>
+                <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                <input
+                  type="search" required name="searchInput" id="search" class="form-control border-secondary" placeholder="Search jobs..."/>
+                <button type="submit" class="btn btn-custom ms-2 search-btn">Search</button>
+              </form>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+{% endblock nav %}
+{% block main %}
+<div style="min-height: 500px;">
+  <div class="px-2 d-flex flex-column flex-md-row justify-content-between align-items-lg-center mb-4" style="background: lavender;">
+    <p>Showing search result for <em>{{keyword}}</em> </p>
+    {% if total_jobs %}
+    <p> <b>{{total_jobs}}</b> {% if total_jobs <= 1 %} job {% else %} jobs {% endif %} found.</p>
+    {% else %}
+    <p> <b>no matching job</b> found.</p>
+    {% endif %}
+  </div>
+
+  <!-- Job Details --> 
+    <div class="row row-cols-md-2 row-cols-1 row-cols-lg-4 g-3 p-2">
+      {% for job in jobs %}
+        {% if job.job_status == 'Available' %}
+          <div class="card p-2 me-3">
+              <div class="d-flex">
+                  <img
+                    src="/static/logos/{% if job.job_employer.employer_company_logo %}{{ job.job_employer.employer_company_logo }}{% else %}avatar.jpeg{% endif %}"
+                    alt=""
+                    class="img-square"
+                  />
+                  <h6 class="ms-2 align-self-center text-wrap">{{ job.job_title }}</h6>
+                 
+                </div>
+                <div class="title px-3 text-center">
+                  <h6 class="card-subtitle my-2 text-body-secondary">
+                    {{ job.job_employer.employer_company_name }}
+                  </h6>
+                  <h6 class="card-subtitle my-2 text-body-secondary">
+                    {{ job.job_lga.lga_name }}, {{ job.job_state.state_name }} State
+                  </h6>
+                </div>
+
+                <p class="card-text text-primary d-flex mt-1 justify-content-center">
+                  <span class="job_info"> {{ job.job_mode }} </span>
+                  <span class="job_info"> {{ job.job_type }} </span>
+                  <span class="job_info"> {{ job.job_level.level_name }} </span>
+                </p>
+                <p class="card-text d-flex justify-content-between align-items-center">
+                  <a href="{{url_for('job_details', id=job.job_id)}}"
+                  type="button"
+                  class="btn btn-icon"
+                  style="text-decoration: none;"
+                >
+                  View Details
+                </a>
+                <span class="text-muted" style="font-size:small"> Posted on: {{job.posted_on.strftime('%B %d, %Y')}}</span>
+                </p>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+</div>
+  {% include "utilities/footer.html" %}
+  {% include "utilities/modals.html" %}
+<!-- Job Details -->
+
+{% endblock main %}
+

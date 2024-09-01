@@ -1,0 +1,253 @@
+{% extends "utilities/layout.html" %}
+
+{% block nav %}
+<header class="sticky-top" style="background: #fff">
+  <div class="row">
+    <div class="col">
+      <nav class="navbar navbar-expand-lg bg-body-light">
+        <div class="container-fluid">
+          <a
+            class="navbar-brand d-flex align-items-center text-blue"
+            href=""
+            ><img src="/static/images/logo-light.png" alt="logo" />
+            <small> CareerConnect </small></a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="collapse navbar-collapse"
+            id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" href="{{url_for('employer')}}">
+                  Home
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" >Forum</a>
+              </li>
+            </ul>
+            <ul class="navbar-nav mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link pe-3" href="{{ url_for('home') }}">For Job Seekers</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">
+                  <button
+                    class="btn btn-outline-custom">
+                    <i class="fa-solid fa-right-to-bracket"></i> Login
+                  </button>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link"
+                    href="{{ url_for('employer_registration') }}">
+                  <button
+                    type="button"
+                    class="btn btn-custom">Join Now
+                  </button>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+{% endblock nav %}
+
+{% block main %}
+
+  <main>
+
+    <!-- Hero Section -->
+      <section>
+      <div class="row justify-content-center align-items-center hero">
+        <div class="col-lg-5 col-md-6 col-sm-10 py-2">
+          <img
+            src="/static/images/image5.PNG"
+            alt="hero"
+            class="img-fluid"
+          />
+        </div>
+        <div class="col-lg-5 col-md-6 col-sm-10 text-blue py-2">
+          <h1>
+            Recruit the <span class="text-green">profiles</span> your
+            company deserves.
+          </h1>
+          <p class="fs-4">
+            Acquiring new talents is a crucial issue in your company
+            development. CareerConnect is here to make sure you make the
+            right move.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- Hero Section Ends -->
+
+    <!-- Get Started-->
+      <section>
+      <div
+        class="row justify-content-center align-items-center my-5 get_started"
+      >
+        <div class="col-lg-6 col-md-6 col-sm-10 mt-5 text-blue">
+          <div class="row my-5 justify-content-center align-items-center">
+            <div class="col-2">
+              <i
+                class="fa-solid fa-users-viewfinder"
+                style="font-size: 3rem; color: rgb(46, 216, 110)"
+              ></i>
+            </div>
+            <div class="col-7 fs-4">
+              Publish your job offers with ease and get maximum visibility
+              from the CareerConnect community.
+            </div>
+          </div>
+          <div class="row my-5 justify-content-center align-items-center">
+            <div class="col-2">
+              <i
+                class="fa-solid fa-handshake"
+                style="font-size: 3rem; color: rgb(46, 216, 110)"
+              ></i>
+            </div>
+            <div class="col-7 fs-4">
+              Access our candidate CV database and interact directly with
+              them without intermediary.
+            </div>
+          </div>
+          <div class="my-3 d-flex justify-content-center">
+            <a
+              type="button"
+              class="btn btn-custom col-6 p-3"
+              href="{{ url_for('employer_registration') }}"
+            >
+              Start Hiring
+          </a>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-6 col-sm-10">
+          <img
+            src="/static/images/image6.PNG"
+            alt="upload resume"
+            class="img-fluid"
+          />
+        </div>
+      </div>
+    </section>
+    <!-- Get Started Ends -->
+
+    <!-- Pricing -->
+       <section id="pricing">
+           <h2 class="mb-5 text-center">Pricing List</h2>
+            <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 g-4">
+              <div class="col">
+                <div class="card">
+                  <div class="card-header">
+                      <h4> BASIC PLAN</h4>
+                      <p>Hiring on a budget? Just the essentials to get the job done.</p>
+                  </div>
+                  <div class="card-body">
+                        <p><i class="fa-solid fa-circle-check"></i> 7K+ candidates and counting.</p>
+                        <p><i class="fa-solid fa-circle-check"></i> Automatic candidate analysis.</p>
+                        <p><i class="fa-solid fa-circle-check"></i> Post jobs in minutes.</p>
+                        <p><i class="fa-solid fa-circle-check"></i> Role is auto-shared on Google jobs.</p>
+                        <p class="fs-2 mt-3">FREE</p>
+                      <button type="button" class="btn btn-custom col-12">Learn more <i class="fa-solid fa-arrow-right"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card">
+                  <div class="card-header">
+                      <h4> STARTER PLAN </h4>
+                      <p>Hiring on a budget? Just the essentials to get the job done.</p>
+                  </div>
+                  <div class="card-body">
+                        <p><i class="fa-solid fa-circle-check"></i> All free features and much more.</p>
+                        <p><i class="fa-solid fa-circle-check"></i> Save 50% time with candidate ranking.</p>
+                        <p><i class="fa-solid fa-circle-check"></i> Professional tests to validate candidates.</p>
+                        <p><i class="fa-solid fa-circle-check"></i> 3K profiles for finding matches.</p>
+                        <p class="fs-2"><sup>$</sup>30/<span class="fs-4">job post</span></p>
+                      <button type="button" class="btn btn-custom col-12">Learn more <i class="fa-solid fa-arrow-right"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card">
+                  <div class="card-header">
+                      <h4> PRO PLAN </h4>
+                      <p>Frequently hiring? Built for leading organisations.</p>
+                  </div>
+                  <div class="card-body">
+                        <p><i class="fa-solid fa-circle-check"></i> All starter features and much more.</p>
+                        <p><i class="fa-solid fa-circle-check"></i> Dedicated account manager.</p>
+                        <p><i class="fa-solid fa-circle-check"></i> Advanced candidate analysis.</p>
+                        <p><i class="fa-solid fa-circle-check"></i> Brand building articles and CRM tools.</p>
+                        <p class="fs-2"><sup>$</sup>100/<span class="fs-4">month</span></p>
+                      <button type="button" class="btn btn-custom col-12">Learn more <i class="fa-solid fa-arrow-right"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card">
+                  <div class="card-header">
+                      <h4> ELITE PLAN </h4>
+                      <p>Urgent or hard to fill roles? Our HR experts got your back.</p>
+                  </div>
+                  <div class="card-body">
+                        <p><i class="fa-solid fa-circle-check"></i> From entry level to exec search.</p>
+                        <p><i class="fa-solid fa-circle-check"></i> 2K+ candidates placed across the world.</p>
+                        <p><i class="fa-solid fa-circle-check"></i> Internationally experienced recruiters</p>
+                        <p><i class="fa-solid fa-circle-check"></i> Results generated</p>
+                        <p class="fs-2"><sup>$</sup>200/<span class="fs-4">hire</span></p>
+                      <button type="button" class="btn btn-custom col-12">Learn more <i class="fa-solid fa-arrow-right"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </section>
+    <!-- Pricing Ends -->
+
+    <!-- Support  -->
+      <section>
+          <div
+            class="row justify-content-around m-3 align-items-center support my-5 py-3"
+          >
+            <div class="col-lg-5 col-md-6 col-sm-10">
+              <div class="fs-2 mb-2 text-title">Need Some Assistance?</div>
+              <p class="fs-4">
+                Do you want to know more about how we operate? Our support team
+                is here to help anytime, any day. Chat with a team member for
+                now.
+              </p>
+              <div class="mb-3 d-flex justify-content-center">
+                <button type="button" class="btn btn-custom col-12 p-3">
+                  <i class="fa-regular fa-message"></i> Chat with our support
+                  team
+                </button>
+              </div>
+            </div>
+            <div class="col-lg-5 col-md-6 col-sm-10">
+              <img
+                src="/static/images/IMG_0625.JPG"
+                alt="support"
+                class="img-fluid"
+              />
+            </div>
+          </div>
+        </section>
+    <!-- Support Ends -->
+
+  </main>
+
+  {% include "utilities/footer.html" %}
+{% endblock main %}

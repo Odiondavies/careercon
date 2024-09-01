@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CareerConnect: {{ title }} </title>
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" />
+    <!-- Fontawesome css-->
+    <link rel="stylesheet" href="/static/fontawesome/css/all.css" />
+    <!-- Animation css -->
+    <link rel="stylesheet" href="/static/styles/animate.min.css" />
+    <!-- Page Css -->
+    <link rel="stylesheet" href="/static/styles/stylesheet.css" />
+  </head>
+<body style="background: #ddf7f5">
+
+  <!-- Login Form -->
+    <div class="container-fluid">
+    <div class="card border-0" style="background: inherit; margin-top: 100px">
+        <div class="row justify-content-center">
+          <div class="col-lg-5 col-md-8 col-12 bg-light px-5 login_wrapper" style="vertical-align: center;">
+              <div class="d-flex justify-content-center align-items-center mt-2">
+                <a href="#">
+                  <img
+                    src="/static/images/logo-light.png"
+                    alt="logo"
+                    class="img-fluid"
+                    width="45"
+                  />
+                </a>
+            </div>
+              <p class="fs-4 text-center">Admin Login</p>
+              {% set m = get_flashed_messages(with_categories=True) %}
+                  {% for cat, msg in m %}
+                    <p class="alert alert-danger p-2 text-center" style="font-size: 0.9rem">
+                      <i class="fa-solid fa-circle-info"></i> {{ msg }} </p>
+                  {% endfor %}
+              <form action="" method="post" novalidate>
+              {{ form.csrf_token }}
+                <div class="form-floating mb-3">
+                    {{ form.email(class="form-control border-secondary", placeholder="Email Address") }}
+                    {{ form.email.label(for='floatingInput') }}
+                </div>
+                <div class="form-floating mb-1">
+                    {{ form.password(class="form-control border-secondary password", placeholder="Password") }}
+                    {{ form.password.label(for='floatingInput') }}
+                    <i class="fa-solid fa-eye-slash eyeIcon"></i>
+                </div>
+                <div class="mb-5 mt-4">
+                    <input type="submit" class="btn btn-custom col-12" value="Sign in to your account" />
+                  </div>
+              </form>         
+          </div>
+        </div>
+    </div>
+  </div>
+  <!-- Login Form Ends -->
+
+    <!-- Jquery js -->
+    <script src="/static/scripts/jquery.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Page js -->
+    <script src="/static/scripts/script.js"></script>
+ </body>
+</html>

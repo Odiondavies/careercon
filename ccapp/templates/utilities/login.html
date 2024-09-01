@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CareerConnect: {{ title }} </title>
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" />
+    <!-- Fontawesome css-->
+    <link rel="stylesheet" href="/static/fontawesome/css/all.css" />
+    <!-- Animation css -->
+    <link rel="stylesheet" href="/static/styles/animate.min.css" />
+    <!-- Page Css -->
+    <link rel="stylesheet" href="/static/styles/stylesheet.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/static/favicon_io/site.webmanifest">
+  </head>
+<body style="background: #ddf7f5">
+
+  <!-- Login Form -->
+    <div class="container-fluid">
+    <div class="card my-4 border-0" style="background: inherit">
+        <div class="row justify-content-center">
+          <div class="col-lg-5 col-md-8 col-12 bg-light px-5 login_wrapper" style="vertical-align: center;">
+              <div class="d-flex justify-content-center align-items-center mt-2">
+                <a href="/">
+                  <img
+                    src="/static/images/logo-light.png"
+                    alt="logo"
+                    class="img-fluid"
+                    title="Go back to the homepage"
+                    width="45"
+                  />
+                </a>
+            </div>
+              <p class="fs-4 text-center">Sign in to your account.</p>
+              <div class="mb-2" style="position: relative;">
+                <button
+                  type="button" class="btn btn-primary col-12 hstack" style="position: relative">
+                  
+                  <span class="vstack ms-auto"> Continue with Google </span>
+                </button>
+                <img src="/static/images/google.png" width="35" class="img-fluid"
+                  style="background: #fff; padding: 10px; position: absolute; top: 1.2px; left: 2px" />
+              </div>
+              <h6 class="text-center hr-lines"> <span> OR </span> </h6>
+              {% set m = get_flashed_messages(with_categories=True) %}
+                  {% for cat, msg in m %}
+                    {% if cat == 'error' %}
+                    <p class="alert alert-danger p-2 text-center" style="font-size: 0.9rem">
+                      <i class="fa-solid fa-circle-info"></i> {{ msg }} </p>
+                    {% else %}
+                      <p class="alert alert-info p-2 text-center" style="font-size: 0.9rem">
+                      <i class="fa-solid fa-circle-info"></i> {{ msg }} </p>
+                    {% endif %}
+                  {% endfor %}
+              <form action="" method="post" novalidate>
+              {{ form.csrf_token }}
+              <div class="form-floating mb-3">
+                {{ form.email(class="form-control border-secondary", placeholder="Email Address") }}
+                {{ form.email.label(for='floatingInput') }}
+              </div>
+              <div class="form-floating mb-1">
+                {{ form.password(class="form-control border-secondary password", placeholder="Password") }}
+                {{ form.password.label(for='floatingInput') }}
+                  <i class="fa-solid fa-eye-slash eyeIcon"></i>
+              </div>
+              <div class="my-3">
+                    <a
+                      href="#"
+                      class="text-blue"
+                      data-bs-target="#forgotPassword"
+                      data-bs-toggle="modal"
+                      >Forgot Your Password?</a
+                    >
+              </div>
+              <div class="my-3">
+                <input type="submit" class="btn btn-custom col-12" value="Sign in to your account" />
+              </div>
+              <hr />
+              </form>
+              <div class="d-flex justify-content-center mb-2">
+                <p> New to CareerConnect?
+                  <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#joinNow"
+                    style="text-decoration: none"
+                    class="text-blue"
+                    >Create a free account.</a>
+                </p>
+              </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <!-- Login Form Ends -->
+
+  {% include "utilities/modals.html" %}
+  <!-- Forgot Password -->
+  <div
+  class="modal fade"
+  id="forgotPassword"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="forgotPasswordLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="forgotPasswordLabel">
+          Password Recovery
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <form action="{{url_for('forgot_password')}}" method="post">
+              <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+              <div class="mb-4">
+                <label for="regEmial" class="mb-3"
+                  >Your Registered Email</label
+                >
+                <input
+                  type="email"
+                  name="regEmail"
+                  id="regEmail"
+                  placeholder="Registered Email Address"
+                  class="form-control border-secondary"
+                />
+              </div>
+              <div class="mb-4">
+                <input
+                  type="submit"
+                  value="Submit"
+                  class="btn btn-custom col-12"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Forgot Password Ends-->
+    <!-- Jquery js -->
+    <script src="/static/scripts/jquery.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Page js -->
+    <script src="/static/scripts/script.js"></script>
+ </body>
+</html>

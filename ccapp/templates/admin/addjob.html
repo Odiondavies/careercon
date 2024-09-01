@@ -1,0 +1,181 @@
+{% extends "admin/layout.html" %}
+
+{% block subnav %}
+    <div class="card mb-3 border-0 mx-2" style="background: #ddf7f5">
+        <div class="card-header">
+            <h3 class="mt-2">Add Job</h3>
+        </div>
+        <p class="ps-3 mt-1"> Please, fill-out the form fields below to post a job. Fields with <span class="text-danger">*</span> are compulsory.</p>
+    </div>
+{% endblock subnav %}
+
+{% block content %}
+<main>
+    <div class="container-fluid px-4 mb-5">
+        {% set messages = get_flashed_messages(with_categories=True) %}
+          {% for cat, msg in messages %}
+            {% if cat == 'error' %}
+              <div class="alert alert-danger"><i class="fas fa-circle-xmark"></i> {{msg}}</div>
+            {% else %}
+              <div class="alert alert-success"><i class="fas fa-circle-check"></i> {{msg}}</div>
+            {% endif %}
+         {% endfor %}
+        <form action="{{url_for('add_job')}}" method="post">
+            <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+
+            <div class="row justify-content-between">
+                <div class="col-lg-6 col-md-12">
+                  <div class="row flex-wrap bg-light p-3">
+                    <div class="col-md-4 mb-3">
+                        <label class="mb-2">Experience*</label>
+                        <select name="level" id="level" class="form-select border-dark">
+                            <option>Experience</option>
+                            {% for level in levels %}
+                                <option value="{{ level.level_id }}">{{ level.level_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                            <label class="mb-2">Job Category*</label>
+                            <select name="category" id="category" class="form-select border-dark">
+                                <option>Category</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.category_id }}">{{ category.category_name }}</option>
+                                {% endfor %}
+                            </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="mb-2">Vacancies</label>
+                        <select name="vacancy" class="form-select border-dark">
+                            <option>Number of vacancies</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>                      
+                    <div class="col-md-4 mb-3">
+                            <label class="mb-2">Job Type*</label>
+                            <select name="job_type" id="job_type" class="form-select border-dark">
+                                <option value="">Type</option>
+                                <option value="Fulltime">Fulltime</option>
+                                <option value="Part-time">Part-time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Intern">Internship</option>
+                            </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                            <label class="mb-2">Job Mode*</label>
+                            <select name="job_mode" id="job_mode" class="form-select border-dark">
+                                <option>Mode</option>
+                                <option value="Onsite">Onsite</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="Remote">Remote</option>
+                            </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="mb-2">Salary</label>
+                        <input type="text" name="salary" class="form-control border-dark" placeholder="Salary"/>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="mb-2">Location*</label>
+                        <select name="state" id="state" class="form-select border-dark">
+                            <option>Location</option>
+                            {% for state in states %}
+                                <option value="{{ state.state_id }}">{{ state.state_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="mb-2">City*</label>
+                        <select name="lga" id="lga" class="form-select border-dark">
+                        <option>City</option>
+                            
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="mb-2">Language*</label>
+                        <input name="language" id="language" class="form-control border-dark" placeholder="Language"/>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label class="mb-2">Job Title*</label>
+                        <input type="text" name="title" class="form-control border-dark" placeholder="Job title"/>
+                    </div>
+                    <div class="col-12 mb-3 vstack">
+                        <label class="mb-2">Job Description*</label>
+                        <textarea name="description"class="border-dark" placeholder="Job Description" cols="30" rows="2"></textarea>
+                    </div>  
+                    <div class="col-12 mb-3">
+                        <label class="mb-2">Employer*</label>
+                        <select name="employer" class="form-select border-dark">
+                        <option>Employer</option>
+                        {% for employer in employers %}
+                            <option value="{{ employer.employer_id }}">{{ employer.employer_company_name }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>                    
+                  </div>
+                </div>
+                <div class="col-lg-5 col-md-12 my-2">
+                    <div class="row flex-wrap bg-light p-3" style="position: relative">
+                        <button id="addResp" type="button" class="btn btn-primary btn-sm col-2" style="position: absolute; right: 10px; top: 5px">Add</button>
+                        <div class="col vstack" id="resp">
+                            <label class="my-2">Responsibilities*</label>
+                            <textarea name="responsibilities" cols="30" rows="2" class="mb-2"></textarea>
+                            
+                        </div>
+                    </div>
+                    <div class="row flex-wrap bg-light p-3 mt-4" style="position: relative">
+                        <button id="addQual" type="button" class="btn btn-primary btn-sm col-2" style="position: absolute; right: 10px; top: 5px">Add</button>
+                        <div class="col vstack" id="qual">
+                            <label class="my-2">Requirements*</label>
+                            <textarea name="qualification" cols="30" rows="2" class="mb-2"></textarea>
+
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary col-12" style="border-radius: 0px">Post Job</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock content %}
+{% block customJS %}
+<script>
+    $(document).ready(function(){      
+        $('#state').change(function(){
+          let state = $(this).val();
+        
+          $.getJSON({
+            url: `/show_lga/${state}`,
+            success: function(lga){
+              $('#lga').empty();
+              for (let i = 0; i < lga.length; i++) {
+                  $('#lga').append(`<option value='${lga[i].lga_id}'>${lga[i].lga_name}</option>`);
+              }
+            }
+          })
+        
+        });
+        let count = 1;
+        $('#addResp').click(function(){
+            count += 1;
+            $("#resp").append(`<textarea name="responsibilities" cols="30" rows="2" class='mb-2'></textarea>`);          
+            if(count == 7){
+                $("#addResp").hide();
+            }
+        });
+        let qualBox = 1;
+        $('#addQual').click(function(){
+            qualBox += 1;
+            $("#qual").append(`<textarea name="qualification" cols="30" rows="2" class='mb-2'></textarea>`);          
+            if(qualBox == 7){
+                $("#addQual").hide();
+            }
+        });
+    });
+</script>
+{% endblock customJS %}
+

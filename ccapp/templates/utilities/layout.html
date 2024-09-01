@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keyword" content="web development, job portal, remote jobs, profession, employement, recruits, hire, jobseeker,employyer, professional experience, job posting">
+    <meta name="description" content="Unlock Your Career Potential at Career Connect: Explore a Wide Range of Job Listings, Apply with Confidence, and Connect with Top Employers.
+      Our Comprehensive Platform Offers Tailored Job Matches, Expert Career Advice, and Networking Opportunities. Join Career Connect Today and Take the Next Step in Your Professional Journey!">
+    <meta name="author" content="Joachim Oforma, Igwebuike">
+    <title>CareerConnect - {{ title }} </title>
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" />
+    <!-- Fontawesome css-->
+    <link rel="stylesheet" href="/static/fontawesome/css/all.css" />
+    <!-- Animation css -->
+    <link rel="stylesheet" href="/static/styles/animate.min.css" />
+    <!-- Page Css -->
+    <link rel="stylesheet" href="/static/styles/stylesheet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/static/favicon_io/site.webmanifest">
+  </head>
+  <body class="bg-custom">
+  <!-- Navigation -->
+  {% block nav %}
+  <header class="sticky-top" style="background: #fff">
+    <div class="row">
+      <div class="col">
+        <nav class="navbar navbar-expand-lg bg-body-light">
+          <div class="container-fluid">
+            <a
+              class="navbar-brand d-flex align-items-center text-blue"
+              href=""
+              ><img src="/static/images/logo-light.png" alt="logo" />
+              <small> CareerConnect </small></a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+              >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div
+              class="collapse navbar-collapse"
+              id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link active" href="{{url_for('home')}}">
+                    Home
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" >Forum</a>
+                </li>
+              </ul>
+              <ul class="navbar-nav mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link pe-3" href="{{ url_for('employer') }}">For Employers</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url_for('login') }}">
+                    <button
+                      class="btn btn-outline-custom">
+                      <i class="fa-solid fa-right-to-bracket"></i> Login
+                    </button>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link"
+                      href="{{ url_for('jobseeker_registration') }}">
+                    <button
+                      type="button"
+                      class="btn btn-custom">Join Now
+                    </button>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+  {% endblock nav %}
+  <!-- Navigation Ends -->
+
+    <div class="container-fluid wrapper">
+
+      {% block main %}
+
+      {% endblock main %}
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Jquery js -->
+    <script src="/static/scripts/jquery.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Page js -->
+    <script src="/static/scripts/script.js"></script>
+
+    {% block customJS %}
+    
+    {% endblock customJS %}
+
+ </body>
+</html>

@@ -1,0 +1,132 @@
+{% extends "employer/layout.html" %}
+
+ {% block subnav %}
+        <div class="card mb-4 border-0" style="border-radius: 0px; background: #d7f0ee">
+            <div class="card-header">
+                <h3 class="mt-2">Profile Settings</h3>
+            </div>
+            <div class="card-body hstack">
+                <div>
+                  <img src="/static/logos/{% if empid.employer_company_logo %}{{empid.employer_company_logo}}{% else %}avatar.jpeg{% endif %}"
+                       class="img-fluid rounded-start py-2" width="100">
+                </div>
+                <div>
+                  <div class="card-body">
+                    <h5 class="card-title fs-4">{{ empid.employer_firstname }} {{ empid.employer_lastname }}</h5>
+                    <span class="card-text"><i class="fas fa-envelope"> </i> {{ empid.employer_email }} </span> ⚜
+                    <span class="card-text"><i class="fas fa-phone"> </i>{% if empid.employer_phone %}{{ empid.employer_phone }}{% endif %}</span>
+                    <h6 class="card-text my-2"><i class="fas fa-location-dot"> </i> {{ empid.employer_lga.lga_name }}, {{ empid.employer_state.state_name }} State</h6>
+                  </div>
+                  <div class="btn" data-bs-toggle="modal" data-bs-target="#employerInfo" title="Edit your profile" style="position: absolute; top: 15px; right: 15px;">
+                    <i class="fas fa-pen"></i> Edit
+                  </div>
+                </div>
+            </div>
+        </div>
+ {% endblock subnav %}
+
+{% block content %}
+    <main>
+      <div class="container-fluid px-4">
+          <div class="row justify-content-center">
+              <div class="col-lg-11">
+              {% set messages = get_flashed_messages(with_categories=True) %}
+                {% for cat, msg in messages %}
+                    {% if cat == 'error' %}
+                        <div class="alert alert-danger"><i class="fas fa-circle-info"></i> {{msg}}</div>
+                    {% else %}
+                        <div class="alert alert-success"><i class="fas fa-circle-check"></i> {{msg}}</div>
+                    {% endif %}
+                {% endfor %}
+                <div class="card p-3 mb-5">
+                  <form action="{{url_for('profile')}}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                    <div class="card-header mb-1" style="background: #fff">
+                      <label class="fs-5 text-blue">Company Logo</label>
+                      <input type="file" name="logo" class="form-control mt-2" value="{{empid.employer_company_logo}}"/>
+                    </div>
+                      <div class="card-body">
+                        <div class="row mb-3">
+                          <div class="col-lg-6 mb-3">
+                            <div class="form-floating">
+                              <input type="email" name="emp_email" class="form-control border-secondary" value="{% if empid.employer_company_email %}{{empid.employer_company_email}}{% endif %}"/>
+                              <label>Company Email</label>
+                            </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="form-floating">
+                              <input type="text" name="address" class="form-control border-secondary" value="{% if empid.employer_company_address %}{{empid.employer_company_address}}{% endif %}"/>
+                              <label>Company Address </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mb-1 vstack">
+                        <label class="fs-5 text-blue mb-1">About Company</label>
+                        <textarea name="desc" id="desc" cols="30" rows="3">{% if empid.employer_company_description %}{{ empid.employer_company_description }} {% endif %}</textarea>
+                   </div>
+                      </div>
+                    <div class="card-footer" style="background: #fff">
+                      <button type="submit" class="btn btn-primary col-lg-4 col-12 mt-3" id="updatePass"> Save Changes </button>
+                    </div>
+                  </form>
+                </div>
+             </div>
+          </div>
+      </div>
+    </main>
+<!-- Update company information -->
+<div
+  class="modal fade"
+  id="employerInfo"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="employerInfoLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="personalInfoLabel">
+         <i class="fa-solid fa-user-circle"></i> Update your profile.
+        </h1>
+          <a
+              type="button"
+              class="btn-close"
+              href="{{ url_for('profile') }}">
+          </a>
+      </div>
+      <div class="modal-body">
+          <form action="{{url_for('profile_update')}}" method="post">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+             <div class="row px-5">
+                <div class="col-lg-6 mb-3">
+                  <div class="form-floating">
+                    <input type="text" name="firstname" class="form-control border-secondary" value="{{empid.employer_firstname}}"/>
+                    <label>Firstname*</label>
+                  </div>  
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-floating">
+                    <input type="text" name="lastname" class="form-control border-secondary" value="{{empid.employer_lastname}}"/>
+                    <label>Lastname*</label>
+                  </div>
+                </div>
+                <div class="col-lg-12 my-3">
+                  <div class="form-floating">
+                    <input type="text" name="phone" class="form-control border-secondary" value="{{empid.employer_phone}}"/>
+                    <label>Your Phone*</label>
+                  </div>
+                </div>
+            </div>
+            <div class="modal-footer mt-3 hstack">
+                    <a type="button" class="btn btn-dark col-5 me-auto" href="{{url_for('profile')}}"> Cancel </a>
+                    <button type="submit" class="btn btn-primary col-5" id="saveUpdate"> Save </button>
+                </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Update company information ends -->
+{% endblock content %}

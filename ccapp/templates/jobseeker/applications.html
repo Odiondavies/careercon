@@ -1,0 +1,107 @@
+{% extends "jobseeker/layout.html" %}
+
+{% block content %}
+{% if applications %}
+<main style="min-height: 420px">
+   <!-- applications -->
+   <p class="bg-light p-1 mt-1">Found {{total_applications}} {% if total_applications > 1 %} applications {% else %} application {% endif %}</p>
+   <div class="container-fluid px-4">
+      <p class="text-black ms-3 mt-4">My Applications</p>
+      <table class="table bg-light myTable">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Company</th>
+            <th scope="col">Type</th>
+            <th scope="col">Location</th>
+            <th scope="col">Status</th>
+            <th scope="col">Job Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for application in applications %}
+            <tr>
+                <td scope="row">{{loop.index}}</td>
+                <td>{{application.application_job.job_title}}</td>
+                <td>{{application.application_job.job_employer.employer_company_name}}</td>
+                <td>{{application.application_job.job_type}}</td>
+                <td>{{application.application_job.job_state.state_name}}</td>
+                  {% if application.application_status == 'Accepted' %}
+                    <td><a class="btn btn-sm btn-success">{{application.application_status}}</a></td>
+                  {% elif application.application_status == 'Pending' %}
+                    <td><a class="btn btn-sm btn-warning">{{application.application_status}}</a></td>
+                  {% else %}
+                    <td><a class="btn btn-sm btn-danger">{{application.application_status}}</a></td>
+                  {% endif %}
+                  {% if application.application_job.job_status == 'Available' %}
+                    <td><a class="btn btn-sm btn-success">{{application.application_job.job_status}}</a></td>
+                  {% else %}
+                    <td><a class="btn btn-sm btn-danger">{{application.application_job.job_status}}</a></td>
+                  {% endif %}
+                  {% if application.application_feedback%}
+                    <td><a href="{{application.application_feedback.feedback_id}}" data-bs-toggle="modal" data-bs-target="#feedback" class="btn btn-sm btn-primary">Feedback</a></td>
+                  {% else %}
+                    <td><a class="btn btn-sm btn-primary disabled">Feedback</a></td>
+                  {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+   </div>
+    <!-- applications -->
+{% else %}
+  <div class="row my-5" style="min-height: 420px">
+      <h6 class="text-center">You have not applied for any jobs yet.</h6>
+  </div>
+{% endif %}
+</main>
+<!-- Update job status -->
+    <div
+      class="modal fade"
+      id="feedback"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="feedbackLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+
+            <h1 class="modal-title fs-5" id="feedbackLabel">
+              My Feedbacks
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+          {% for feedback in feedbacks %}
+            <div class="row">
+              <div class="col">
+                <p class="fs-5"><img src="/static/logos/{% if feedback.feedback_employer.employer_company_logo %}{{feedback.feedback_employer.employer_company_logo}}{% else %}avatar.jpeg{% endif %}" class="img-round-xm me-2"/> {{feedback.feedback_employer.employer_company_name}}</p>
+                <p>{{feedback.content}}</p>
+                <p class="d-flex justify-content-end" style="font-size:small"><em>{{feedback.sent_on.strftime('%B %d, %Y')}}-{{feedback.sent_on.strftime('%H:%M')}}</em></p>
+              <hr>
+              </div>
+            </div>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- Update job status-->
+{% endblock content %}
+{% block customJS %}
+<script>
+  $(document).ready( function () {
+    $('.myTable').DataTable();
+} );
+</script>
+{% endblock customJS %}

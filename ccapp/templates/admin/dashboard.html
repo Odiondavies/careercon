@@ -1,0 +1,80 @@
+{% extends "admin/layout.html" %}
+
+{% block subnav %} {% endblock subnav %}
+
+{% block content %}
+    <div class="container-fluid px-4 my-5" style="min-height: 440px">
+        <div class="row flex-wrap g-4">
+            {% with msg = get_flashed_messages() %}
+            {% if msg %}
+                <div class="alert alert-info"><i class="fas fa-circle-info"></i> {{msg}}</div>
+            {% endif %}
+            {% endwith %}
+            <div class="col-lg-4">
+                <div class="card bg-info">
+                <div class="card-body hstack">
+                   <div>
+                     <h5><i class="fas fa-briefcase"></i></h5>
+                    <h5>Job Listings</h5>
+                   </div>
+                    <div class="ms-auto">
+                        <h1>{{total_jobs}}</h1>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card bg-primary">
+                <div class="card-body hstack">
+                   <div>
+                     <h5><i class="fas fa-user"></i></h5>
+                    <h5>Employers</h5>
+                   </div>
+                    <div class="ms-auto">
+                        <h1>{{total_employers}}</h1>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card bg-success text-light">
+                <div class="card-body hstack">
+                   <div>
+                     <h5><i class="fas fa-users"></i></h5>
+                    <h5>Jobseekers</h5>
+                   </div>
+                    <div class="ms-auto">
+                        <h1>{{total_jobseekers}}</h1>
+                    </div>
+                </div>
+            </div>
+            </div>
+             <div class="col-lg-4">
+                <div class="card bg-warning">
+                <div class="card-body hstack">
+                   <div>
+                     <h5><i class="fas fa-dumbbell"></i></h5>
+                    <h5>All Categories</h5>
+                   </div>
+                    <div class="ms-auto">
+                        <h1>{{total_categories}}</h1>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card bg-danger text-light">
+                <div class="card-body hstack">
+                   <div>
+                     <h5><i class="fas fa-pen"></i> </h5>
+                    <h5>Applications</h5>
+                   </div>
+                    <div class="ms-auto">
+                        <h1>{{total_applications}}</h1>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

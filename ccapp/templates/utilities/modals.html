@@ -1,0 +1,104 @@
+    <!-- Join Now -->
+    <div
+      class="modal fade"
+      id="joinNow"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="joinNowLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="joinNowLabel">
+              Choose the option that best describes you?
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col user_type d-flex flex-column">
+                <a
+                  class="mb-5"
+                  href="{{ url_for('jobseeker_registration') }}">
+                  <div> 
+                    A jobseeker looking for employment.
+                    <img
+                    src="/static/images/jobseeker.jpeg"
+                    alt=""
+                    width="40"
+                    height="40"
+                  />
+                </div>
+              </a>
+            <div>
+              <a
+                class="mb-5"
+                href="{{ url_for('employer_registration') }}">
+                An Employer searching for talents to recruit.
+                <img
+                  src="/static/images/employer.jpeg"
+                  alt=""
+                  width="40"
+                  height="40"
+                />
+              </a>
+            </div>
+              </div>
+            </div>
+          </div>
+          <div class="row px-4">
+            <div class="col d-flex">
+              <p>
+                Already have an account?
+                <a
+                  href="{{ url_for('login') }}"
+                  style="text-decoration: none; color: rgb(46, 216, 110)"
+                  >Login</a
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Join Now ENds-->
+
+<!-- Login Required To Apply -->
+  <div
+  class="modal fade"
+  id="access-denied"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="accessDeniedLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header d-flex">
+      
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          style="font-size: small;"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">
+          <p>You need to sign in to continue. Please <a href="{{url_for('login')}}" style="text-decoration: none; margin: 0 1px"> Sign In </a> 
+            or <a href="{{url_for('jobseeker_registration')}}" style="text-decoration: none; margin: 0 1px"> Create </a> a free CareerConnect account.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Login Required To Apply -->

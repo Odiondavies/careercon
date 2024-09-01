@@ -1,0 +1,86 @@
+* {
+  box-sizing: border-box;
+  border: 0;
+  margin: 0;
+}
+.hidden {
+  display: none;
+}
+.text-blue {
+  color: rgb(25, 25, 112);
+}
+.btn-custom {
+  background-color: rgb(46, 216, 110);
+  color: #fff;
+}
+table .fa-trash {
+  color: rgb(184, 30, 30);
+  font-size: 1.2rem;
+}
+table .fa-file-pen {
+  font-size: 1.2rem;
+}
+.btn-custom:hover {
+  background-color: rgba(46, 216, 110, 0.8);
+  color: #fff;
+}
+.adminList .active,
+.adminList .active a {
+  color: rgb(46, 216, 110);
+}
+.header {
+  background-color: #fff;
+}
+.navbar-brand small {
+  font-size: 1.45rem;
+}
+.navbar-brand {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-right: 35px;
+}
+.header input:focus,
+.header input:active {
+  box-sizing: none;
+}
+label {
+  font-size: 1rem;
+  font-weight: 700;
+}
+.fa-right-to-bracket {
+  font-size: 1rem;
+}
+.fa-solid {
+  font-size: 1.5rem;
+}
+.adminList a {
+  text-decoration: none;
+  color: #474747;
+}
+main {
+  background-color: #f0efed;
+  height: 526px;
+}
+.adminSideBar {
+  height: 630px;
+  background-color: #e4fcd2;
+}
+.img-round {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}
+main form {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 0.5px 0.5px #808080;
+}
+.adminDetails {
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 0.5px 0.5px #808080;
+}
+.settings a {
+  text-decoration: none;
+}

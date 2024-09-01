@@ -1,0 +1,61 @@
+{% extends "employer/layout.html" %}
+  {% block subnav %}
+     <div class="card mb-3 border-0" style="border-radius: 0px; background: #d7f0ee">
+      <div class="card-header">
+        <h3 class="mt-2">All Jobs</h3>
+      </div>
+    <p class="ps-3 mt-1">Here is a list of all your job listings. </p>
+  </div>
+  {% endblock subnav %}
+{% block content %}
+{% if jobs %}
+<main>
+    <div class="container-fluid px-4" style="min-height: 420px">
+      <table class="table bg-light myTable">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Category</th>
+            <th scope="col">Type</th>
+            <th scope="col">Status </th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for job in jobs %}
+          {% if job %}
+            <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{job.job_title}}</td>
+            <td>{{job.job_level.level_name}}</td>
+            <td>{{job.job_type}}</td>
+            {% if job.job_status == 'Available' %}
+              <td class="text-success">{{job.job_status}}</td>
+            {% else %}
+              <td class="text-danger">{{job.job_status}}</td>
+            {% endif %}
+            <td>
+                <a href="{{url_for('delete_job', id=job.job_id)}}/" class="btn btn-sm btn-danger" onclick="return confirm('Do you really want to delete this job?')">Delete</a>
+            </td>
+          </tr>
+          {% endif %}
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</main>
+{% else %}
+    <div class="row my-5" style="min-height: 320px;">
+      <h6 class="text-center">You have not listed any jobs yet.</h6>
+  </div>
+{% endif %}
+{% endblock content %}
+{% block customJS %}
+<script>
+  $(document).ready( function () {
+    $('.myTable').DataTable();
+} );
+</script>
+{% endblock customJS %}
+

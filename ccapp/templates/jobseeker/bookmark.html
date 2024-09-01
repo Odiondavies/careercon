@@ -1,0 +1,64 @@
+{% extends "jobseeker/layout.html" %}
+
+{% block content %}
+{% if bookmarked_jobs %}
+  <main style="min-height: 420px">
+        <!-- Bookmarked Jobs -->
+        <p class="bg-light p-1 mt-1">Found {{total_bookmarks}} {% if total_bookmarks > 1 %} bookmarks {% else %} bookmark {% endif %}</p>
+        <p class="text-black ps-4 mt-4">Bookmarked jobs.</p>
+          <div class="row row-cols-md-2 row-cols-1 row-cols-lg-3 g-3 p-4 mb-5">
+            {% for job in bookmarked_jobs %}
+              <div class="col">
+              <div class="card p-3">
+                <div class="d-flex">
+                    <img
+                      src="/static/logos/{% if job.bookmark_job.job_employer.employer_company_logo %}{{ job.bookmark_job.job_employer.employer_company_logo }}{% else %}avatar.jpeg{% endif %}"
+                      alt=""
+                      width="50"
+                      height="50"
+                    />
+                    <h6 class="ms-3 align-self-center text-wrap">{{ job.bookmark_job.job_title }}</h6>
+                  </div>
+                  {% if job.bookmark_job.job_id == job.bookmark_jobid %}
+                    <a class="btn btn-icon icon" href="{{ url_for('remove_bookmark', jobid=job.bookmark_job.job_id, title='My Bookmarks') }}">
+                      <i class="fa-bookmark fa-solid bm-icon" onclick="bookmark()"></i>
+                    </a>
+                  {% else %}
+                    <a class="btn btn-icon icon" href="{{ url_for('add_bookmark', jobid=job.bookmark_job.job_id, title='My Bookmarks') }}">
+                      <i class="fa-bookmark fa-regular bm-icon" onclick="bookmark()"></i>
+                    </a>
+                  {% endif %}
+                  <div class="title text-center">
+                    <h6 class="card-subtitle my-2 text-body-secondary">
+                      {{ job.bookmark_job.job_employer.employer_company_name }} 
+                    </h6>
+                    <h6 class="card-subtitle my-2 text-body-secondary">
+                      {{ job.bookmark_job.job_lga.lga_name}}, {{ job.bookmark_job.job_state.state_name}} State
+                    </h6>
+                  </div>
+                  <p class="card-text text-primary d-flex justify-content-center">
+                    <span class="job_info"> {{ job.bookmark_job.job_mode }} </span>
+                    <span class="job_info"> {{ job.bookmark_job.job_type }} </span>
+                    <span class="job_info"> {{ job.bookmark_job.job_level.level_name }} </span>
+                  </p>
+                <div class="card-text d-flex justify-content-between align-items-center">
+                  <a href="{{ url_for('job_details', id=job.bookmark_job.job_id) }}"
+                      type="button"
+                      class="text-green btn btn-icon"
+                      style="text-decoration: none;">View Details
+                  </a>
+                  <span class="text-muted" style="font-size:small">Posted on: {{job.bookmark_job.posted_on.strftime('%B %d, %Y')}}</span>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+       <!-- Bookmarked Jobs -->
+  </main>
+{% else %}
+  <div class="row my-5" style="min-height: 420px;">
+      <h6 class="text-center">You have no bookmarks yet.</h6>
+  </div>
+{% endif %}
+
+{% endblock content %}

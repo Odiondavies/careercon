@@ -1,0 +1,166 @@
+  {% extends "utilities/layout.html" %}
+  {% block main %}
+
+    <main>
+      <!-- Hero Section -->
+      <section>
+        <div class="row align-items-center justify-content-center hero" style="background-color: #f5fff9">
+          <div class="col-lg-5 col-md-6 col-sm-10 text-blue py-3">
+            <h1> Get Ready to <span class="text-green">Career Connect?</span></h1>
+            <p class="fs-1 text-yellow"></p>
+            <p class="fs-4">
+              Find your dream job today! Choose from thousands of jobs posted
+              daily just for you.
+            </p>
+            <div class="hstack ms-auto">
+              <form action="{{url_for('search_job', page='Home')}}" method="post">
+                <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+                <div class="input-group" width="230px">
+                  <input type="search" name="searchInput" id='searchBox' class="form-control" placeholder="Search keyword..." required />
+                  <button type="submit" class="input-group-text btn btn-success search-btn" style="border: 1px solid silver">
+                      <i class="fa-solid fa-search"></i></button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-6 col-sm-10 py-3">
+            <p class="text-title">
+              <img src="/static/images/image3.PNG" alt="" class="img-fluid" />
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- Hero Section Ends -->
+
+      <!-- Latest Jobs -->
+        <section>
+          <div class="row ms-2">
+            <div class="col-md-7 col-12">
+              <p class="text-title my-3" id="latest_jobs">Find a Job</p>
+              <p class="fs-3 mb-3">
+                More than 7000 job offers are waiting for you, open-up yourself
+                to a new world of opportunities.
+              </p>
+            </div>
+          </div>
+          <div class="row row-cols-md-2 row-cols-1 row-cols-lg-4 g-3 p-2">
+          {% for job in jobs %}
+           {% if job.job_status == 'Available' %}
+            <div class="col job_card">
+              <div class="card p-2">
+                  <div class="d-flex">
+                      <img
+                        src="/static/logos/{% if job.job_employer.employer_company_logo %}{{ job.job_employer.employer_company_logo }}{% else %}avatar.jpeg{% endif %}"
+                        alt=""
+                        class="img-square"
+                      />
+                      <h6 class="ms-2 align-self-center text-wrap">{{ job.job_title }}</h6>
+                    </div>
+                    <div class="title px-3 text-center">
+                      <h6 class="card-subtitle my-2 text-body-secondary">
+                        {{ job.job_employer.employer_company_name }}
+                      </h6>
+                      <h6 class="card-subtitle my-2 text-body-secondary">
+                        {{ job.job_lga.lga_name }}, {{ job.job_state.state_name }} State
+                      </h6>
+                    </div>
+
+                    <p class="card-text text-primary d-flex mt-1 justify-content-center">
+                      <span class="job_info"> {{ job.job_mode }} </span>
+                      <span class="job_info"> {{ job.job_type }} </span>
+                      <span class="job_info"> {{ job.job_level.level_name }} </span>
+                    </p>
+                  <div class="card-text d-flex justify-content-between align-items-center">
+                    <a href="{{url_for('job_details', id=job.job_id)}}"
+                      type="button"
+                      class="btn btn-icon"
+                      style="text-decoration: none;">View Details
+                    </a>
+
+                    <span class="text-muted" style="font-size:small"> Posted on: {{job.posted_on.strftime('%B %d, %Y')}}</span>
+                  </div>
+                  </div>
+              </div>
+           {% endif %}
+          {% endfor %}
+          </div>
+        </section>
+      <!-- Latest Jobs Ends -->
+
+      <!-- Profile -->
+        <section>
+          <div class="row justify-content-around align-items-center my-5">
+            <div class="col-lg-6 col-md-6 col-sm-10">
+              <img
+                src="/static/images/image2.PNG"
+                alt="create profile"
+                class="img-fluid"
+              />
+              <div class="d-flex justify-content-end"></div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-10">
+              <p class="text-green fs-5">
+                <span class="bg-warning py-2 px-4 subtitle">Get Started</span>
+              </p>
+              <p class="text-title">Create Your Profile</p>
+              <p class="fs-5">
+                Diversify your job application and improve your visibility by
+                participating in our recruitment events.
+              </p>
+              <a
+                type="button"
+                class="btn btn-custom my-3"
+                href="{{ url_for('jobseeker_registration') }}"
+              >
+                <i class="fa-regular fa-folder-open"></i> Create Account
+              </a>
+            </div>
+          </div>
+          <div
+            class="row justify-content-around align-items-center my-3"
+            style="background: #ddf7f5"
+          >
+            <div class="col-lg-4 col-md-6 col-sm-10">
+              <p class="text-green fs-5">
+                <span class="bg-warning py-2 px-4 subtitle"
+                  >Stay Connected.</span
+                >
+              </p>
+              <p class="text-title">
+                Discover the companies that are recruiting.
+              </p>
+              <p class="fs-5">
+                Many Nigeria companies are opening their doors.
+              </p>
+              <p class="fs-5">Follow, recommend, apply!</p>
+            </div>
+            <div class="col-lg-5 col-md-6 col-sm-10">
+              <img
+                src="/static/images/image1.PNG"
+                alt="upload resume"
+                class="img-fluid"
+              />
+            </div>
+          </div>
+        </section>
+      <!-- Profile Ends-->
+    </main>
+
+    {% include "utilities/footer.html" %}
+    {% include "utilities/modals.html" %}
+  {% endblock main %}
+  {% block customJS %}
+  <script>
+    $(document).ready(function(){
+      $('.search-btn').click(function(){
+        let keyword = $('#search').val();
+        $.ajax({
+          url: "/search-job/",
+          type: "POST",
+          data: {"keyword": keyword, "csrf": "{{csrf_token()}}"},
+        });
+      });
+    });
+  </script>
+  {% endblock customJS %}
+
